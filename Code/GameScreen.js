@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 class GameScreen extends Phaser.Scene {
     constructor() {
       super({ key: 'playgame' });

@@ -5,7 +5,7 @@ class TitleScreen extends Phaser.Scene {
 
   preload() {
     this.load.image('background', 'assets/background1.jpg');
-  }
+  } 
 
   create() {
     this.add.text(10, 10, 'Loading game...', { fill: '#0f0' });

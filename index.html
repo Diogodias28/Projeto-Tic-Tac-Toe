@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        html {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+
+        body {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+    </style>
+    <script src="jquery.js"></script>
+    <script src="Code/data/backEnd.js"></script>
+    <script src="Code/data/Login.js"></script>
+    <script src="phaser.min.js"></script>
+    <script src="Code/Menu.js"></script>
+</head>
+
+<body>
+</body>
+
+</html>
+
+<script>
+    var config = {
+        type: Phaser.CANVAS,
+        width: window.innerWidth * window.devicePixelRatio,
+        height: window.innerHeight * window.devicePixelRatio,
+        scale: {
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+            width: 2048,
+            height: 1536,
+        },
+        render: {
+            pixelArt: true
+        },
+        dom: {
+            createContainer: true
+        },
+        backgroundColor: "#ffffff",
+        parent: 'divId',
+        fullscreenTarget: 'divId',
+        scene: [Menu, TicTacToe]
+    }
+    var game = new Phaser.Game(config);
+
+</script>
