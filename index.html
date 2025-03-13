@@ -17,14 +17,28 @@
             margin: 0;
         }
     </style>
-    <script src="jquery.js"></script>
-    <script src="Code/data/backEnd.js"></script>
-    <script src="Code/data/Login.js"></script>
-    <script src="phaser.min.js"></script>
-    <script src="Code/Menu.js"></script>
+
+
+
 </head>
 
 <body>
+    <div>
+        <script>
+            var RotateOptions = {
+                message: "Por Favor, Rode o Ecrã",
+                submessage: "(Ou Clique Aqui)",
+                allowClick: true,
+            }
+        </script>
+        <script src="jquery.js"></script>
+        <script src="Code/data/backEnd.js"></script>
+        <script src="Code/data/Login.js"></script>
+        <script src="phaser.min.js"></script>
+        <script src="Code/Menu.js"></script>
+        <script src="Code/pleaserotate.js"></script>
+        <script src="Code/TicTacToe.js"></script>
+    </div>
 </body>
 
 </html>
@@ -38,10 +52,10 @@
             mode: Phaser.Scale.FIT,
             autoCenter: Phaser.Scale.CENTER_BOTH,
             width: 2048,
-            height: 1536,
+            height: 1200,
         },
         render: {
-            pixelArt: true
+            pixelArt: false
         },
         dom: {
             createContainer: true
@@ -52,5 +66,6 @@
         scene: [Menu, TicTacToe]
     }
     var game = new Phaser.Game(config);
+    var userInfo = new Login();
 
 </script>

@@ -5,13 +5,12 @@ let height;
 
 //Login
 let nome = "";
-let nome2 = "";
 
 
 
 class Menu extends Phaser.Scene {
     constructor() {
-        super("Menu");
+        super('Menu');
     }
 
     preload() {
@@ -24,7 +23,7 @@ class Menu extends Phaser.Scene {
         height = game.config.height;
 
         // BakGround
-        this.background = this.add.sprite(0.5 * width, 0.5 * height, "background");
+        this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background');
         this.background.setScale(1.5);
 
         //Ola MSG
@@ -42,15 +41,24 @@ class Menu extends Phaser.Scene {
         width = game.config.width;
         height = game.config.height;
 
-        if(call == 0){
+        if (call == 0) {
             sessionVerify();
             call = 1;
         }
 
         if (infoUser.user != '' && infoUser.user != 'prof') {
             nome = infoUser.firstName.split(" ")[0];
-            this.ola.setText("Olá, " + nome);
+            this.ola.setText(["Olá, " + nome]);
             this.ola.visible = true;
+        }
+
+        if (this.scale.isFullscreen) {
+            this.fullscreenBT1.visible = true;
+            this.fullscreenBT2.visible = false;
+        }
+        else {
+            this.fullscreenBT1.visible = false;
+            this.fullscreenBT2.visible = true;
         }
     }
 }  
