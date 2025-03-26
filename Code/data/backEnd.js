@@ -71,3 +71,23 @@ function sessionVerify() {
         }
     })
 }
+
+function destroySession() {
+    $.ajax({
+        type: "POST",
+        url: "https://www.hypatiamat.com/loginActionVH.php",
+        data: "action=destroy",
+        cache: false,
+
+        sucess: function (data) {
+            infoUser.user = "";
+            infoUser.firstName = "";
+            infoUser.escola = "";
+            infoUser.turma = "";
+            infoUser.setLocalData();
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Erro de ligação ao servidor");
+        }
+    })
+}
