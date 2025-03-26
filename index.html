@@ -44,7 +44,9 @@
         <script src="phaser.min.js"></script>
         <script src="Code/pleaserotate.js"></script>
         <script src="Code/Menu.js"></script>
-        <script src="Code/TicTacToe.js"></script>
+        <script src="Code/PlayerVsPlayer.js"></script>
+        <script src="Code/PlayerVsBot1.js"></script>
+        <script src="Code/PlayerVsBot2.js"></script>
     </div>
 </body>
 
@@ -58,8 +60,8 @@
         scale: {
             mode: Phaser.Scale.FIT,
             autoCenter: Phaser.Scale.CENTER_BOTH,
-            width: 2048,
-            height: 1200,
+            width: 1920,
+            height: 1080,
         },
         render: {
             pixelArt: false
@@ -70,7 +72,7 @@
         backgroundColor: "#ffffff",
         parent: 'divId',
         fullscreenTarget: 'divId',
-        scene: [Menu, TicTacToe]
+        scene: [Menu, PlayerVsPlayer, PlayerVsBot1,PlayerVsBot2]
     }
     var game = new Phaser.Game(config);
     var userInfo = new Login();

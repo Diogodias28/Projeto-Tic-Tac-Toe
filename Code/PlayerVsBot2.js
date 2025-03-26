@@ -1,10 +1,10 @@
-class TicTacToe extends Phaser.Scene {
+class PlayerVsBot1 extends Phaser.Scene {
     constructor() {
-        super('TicTacToe');
+        super('PlayerVsBot1');
     }
 
     preload() {
-        this.load.image('background', 'Assets/Background-tictactoe3d.jpg');
+        this.load.image('background', 'Assets/Background-PlayerVsBot13d.jpg');
         this.load.image('bt_home', 'Assets/bt_home.png');
         this.load.image('fullscreeBT-1', 'Assets/fullscreeBT-1.png');
         this.load.image('fullscreeBT-2', 'Assets/fullscreeBT-2.png');

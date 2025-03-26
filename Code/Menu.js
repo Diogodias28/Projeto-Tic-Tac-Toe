@@ -39,7 +39,7 @@ class Menu extends Phaser.Scene {
         width = game.config.width;
         height = game.config.height;
 
-        // BakGround
+        // BackGround
         this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background');
         this.background.setScale(1.5);
 
@@ -168,19 +168,19 @@ class Menu extends Phaser.Scene {
             switch (gameObject) {
                 case this.playBT:
                     this.scene.transition({
-                        target: 'TicTacToe',
+                        target: 'PlayerVsPlayer',
                         duration: 100
                     });
                     break;
                 case this.playBT2:
                     this.scene.transition({
-                        target: 'TicTacToeBot',
+                        target: 'PlayerVsBot1',
                         duration: 100
                     });
                     break;
                 case this.playBT3:
                     this.scene.transition({
-                        target: 'TicTacToeBot',
+                        target: 'PlayerVsBot2',
                         duration: 100
                     });
                     break;

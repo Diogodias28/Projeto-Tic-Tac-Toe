@@ -1,6 +1,6 @@
-class TicTacToe extends Phaser.Scene {
+class PlayerVsBot2 extends Phaser.Scene {
     constructor() {
-        super('TicTacToe');
+        super('PlayerVsBot2');
     }
 
     preload() {
