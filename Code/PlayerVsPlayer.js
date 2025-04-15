@@ -9,8 +9,8 @@ class PlayerVsPlayer extends Phaser.Scene {
     preload() {
         this.load.image('background', 'Assets/Background-tictactoe3d.jpg');
         this.load.image('bt_home', 'Assets/bt_home.png');
-        this.load.image('fullscreeBT-1', 'Assets/fullscreeBT-1.png');
-        this.load.image('fullscreeBT-2', 'Assets/fullscreeBT-2.png');
+        this.load.image('fullscreenBT-1', 'Assets/fullscreeBT-1.png');
+        this.load.image('fullscreenBT-2', 'Assets/fullscreeBT-2.png');
     }
 
     create() {
@@ -114,12 +114,30 @@ class PlayerVsPlayer extends Phaser.Scene {
             const offsetY = layerOffsets[layer].y;
 
             // Texto acima do layer, centralizado com o grid
-            this.add.text(offsetX + width / 2 + (3 * cellSize) / 2, offsetY - cellSize * 0.6, `Parte ${layer + 1}`, {
-                fontSize: `${cellSize / 2}px`,
-                color: '#000',
-                fontFamily: 'Arial',
-                fontStyle: 'bold'
-            }).setOrigin(0.5);
+            if (layer == 0) {
+                this.add.text(offsetX + width / 2 + (3 * cellSize) / 2, offsetY - cellSize * 0.6, `Parte de baixo`, {
+                    fontSize: `${cellSize / 2}px`,
+                    color: '#000',
+                    fontFamily: 'Arial',
+                    fontStyle: 'bold'
+                }).setOrigin(0.5);
+            }
+            if (layer == 1) {
+                this.add.text(offsetX + width / 2 + (3 * cellSize) / 2, offsetY - cellSize * 0.6, `Parte do meio`, {
+                    fontSize: `${cellSize / 2}px`,
+                    color: '#000',
+                    fontFamily: 'Arial',
+                    fontStyle: 'bold'
+                }).setOrigin(0.5);
+            }
+            if (layer == 2) {
+                this.add.text(offsetX + width / 2 + (3 * cellSize) / 2, offsetY - cellSize * 0.6, `Parte de cima`, {
+                    fontSize: `${cellSize / 2}px`,
+                    color: '#000',
+                    fontFamily: 'Arial',
+                    fontStyle: 'bold'
+                }).setOrigin(0.5);
+            }
 
             for (let row = 0; row < 3; row++) {
                 for (let col = 0; col < 3; col++) {
@@ -162,12 +180,13 @@ class PlayerVsPlayer extends Phaser.Scene {
             this.winxText.setText(`Vitórias X: ${winx}`);
             this.winoText.setText(`Vitórias O: ${wino}`);
 
-            this.add.text(this.game.config.width / 2 + 30, (this.game.config.height / 2 - 350), `${this.currentPlayer} Wins!`, { fontSize: '64px', fontFamily: 'Arial Black', fill: '#000' }).setOrigin(0.5);
+            this.turnText.setText("");
+            this.add.text(this.game.config.width / 2, 150, `${this.currentPlayer} Ganhou!`, { fontSize: '64px', fontFamily: 'Arial', fill: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
             this.input.off('pointerdown');
             this.time.delayedCall(2000, () => this.scene.start('PlayerVsPlayer'), [], this);
 
         } else if (this.checkDraw()) {
-            this.add.text(this.game.config.width / 2 + 30, (this.game.config.height / 2) - 350, 'Draw!', { fontSize: '64px', fontFamily: 'Arial Black', fill: '#000' }).setOrigin(0.5);
+            this.add.text(this.game.config.width / 2 + 30, (this.game.config.height / 2) - 350, 'Empate!', { fontSize: '64px', fontFamily: 'Arial', fill: '#000' }).setOrigin(0.5);
             this.input.off('pointerdown');
             this.time.delayedCall(2000, () => this.scene.start('PlayerVsPlayer'), [], this);
         } else {

@@ -1,6 +1,6 @@
-class Login {
+class loginInfo {
     constructor() {
-        this.nome = "";
+        this.user = "";
         this.firstName = "";
         this.turma = "";
         this.escola = "";
@@ -8,7 +8,6 @@ class Login {
 
     getLocalData() {
         if (typeof (Storage) === "undefined") {
-            console.log("Storage not supported");
             return;
         }
 
@@ -21,12 +20,11 @@ class Login {
 
     setLocalData() {
         if (typeof (Storage) === "undefined") {
-            console.log("Storage not supported");
             return;
         }
 
         let storeInfo = {
-            'nome': this.nome,
+            'user': this.user,
             'firstName': this.firstName,
             'turma': this.turma,
             'escola': this.escola
@@ -34,11 +32,11 @@ class Login {
 
         let info = JSON.stringify(storeInfo);
 
-        sessionStorage.setItem("data", info);
+        sessionStorage.setItem("loginInfo", info);
     }
 
     logout(){
-        this.nome = "";
+        this.user = "";
         this.firstName = "";
         this.turma = "";
         this.escola = "";
@@ -50,8 +48,8 @@ class Login {
      */
 
     parseData(data){
-        if(data['nome']){
-            this.nome = data['nome'];
+        if(data['user']){
+            this.user = data['user'];
         }
         if(data['firstName']){
             this.firstName = data['firstName'];
