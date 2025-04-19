@@ -45,6 +45,15 @@ class PlayerVsPlayer extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
+        // Block the middle square of the middle board - Needed because X always
+        this.board[1][1][1] = 'Blocked';
+        const forbiddenSignal = this.add.text(this.game.config.width / 2, (this.game.config.height / 2) - 15, '🚫', {
+            fontSize: '32px', 
+            color: '#ff0000',
+            fontFamily: 'Arial',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+
         // Home Button
         this.bt_home = this.add.sprite(0.1 * width, 0.1 * height, 'bt_home');
         this.bt_home.setScale(1);
@@ -76,7 +85,10 @@ class PlayerVsPlayer extends Phaser.Scene {
     }
 
     handleCellClick(layer, row, col, cell) {
-        console.log(layer, row, col, cell);
+        if (this.board[layer][row][col] === 'Blocked') {
+            return;
+        }
+
         if (this.board[layer][row][col] !== '') {
             return;
         }
