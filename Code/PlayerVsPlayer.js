@@ -76,12 +76,17 @@ class PlayerVsPlayer extends Phaser.Scene {
     }
 
     handleCellClick(layer, row, col, cell) {
+        console.log(layer, row, col, cell);
         if (this.board[layer][row][col] !== '') {
             return;
         }
 
         this.board[layer][row][col] = this.currentPlayer;
-        this.add.text(cell.x, cell.y, this.currentPlayer, { fontSize: `${cell.width - 10}px`, fontFamily: 'Arial Black', color: '#000' }).setOrigin(0.5);
+        this.add.text(cell.x, cell.y, this.currentPlayer, {
+            fontSize: `${Math.floor(cell.width * 0.2)}px`,
+            fontFamily: 'Arial Black',
+            color: '#000'
+        }).setOrigin(0.5);
 
         if (checkWin(this.board, this.currentPlayer)) {
             if (this.currentPlayer === 'X') {
