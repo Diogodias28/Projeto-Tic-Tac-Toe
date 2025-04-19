@@ -14,23 +14,7 @@ class PlayerVsPlayer extends Phaser.Scene {
     }
 
     create() {
-        this.board = [
-            [
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', '']
-            ],
-            [
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', '']
-            ],
-            [
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', '']
-            ]
-        ];
+        this.board = createBoard(this);
         this.currentPlayer = 'X';
 
         const width = this.game.config.width;
@@ -89,78 +73,7 @@ class PlayerVsPlayer extends Phaser.Scene {
                     break;
             }
         }, this);
-
-        // Create the Tic Tac Toe board
-        this.createBoard();
     }
-
-    createBoard() {
-        const width = this.game.config.width;  // 1920
-        const height = this.game.config.height; // 1080
-        const cellSize = Math.min(width, height) / 9;
-
-
-        this.cells = []; // Store cell references for resetting
-
-        const shiftLeft = 150;
-        const layerOffsets = [
-            { x: width / 4 - width / 2 - shiftLeft, y: height / 2 - (cellSize * 3) / 2 },
-            { x: width / 2 - width / 2 - shiftLeft, y: height / 2 - (cellSize * 3) / 2 },
-            { x: (width / 4) * 3 - width / 2 - shiftLeft, y: height / 2 - (cellSize * 3) / 2 }
-        ];
-
-        for (let layer = 0; layer < 3; layer++) {
-            const offsetX = layerOffsets[layer].x;
-            const offsetY = layerOffsets[layer].y;
-
-            // Texto acima do layer, centralizado com o grid
-            if (layer == 0) {
-                this.add.text(offsetX + width / 2 + (3 * cellSize) / 2, offsetY - cellSize * 0.6, `Parte de baixo`, {
-                    fontSize: `${cellSize / 2}px`,
-                    color: '#000',
-                    fontFamily: 'Arial',
-                    fontStyle: 'bold'
-                }).setOrigin(0.5);
-            }
-            if (layer == 1) {
-                this.add.text(offsetX + width / 2 + (3 * cellSize) / 2, offsetY - cellSize * 0.6, `Parte do meio`, {
-                    fontSize: `${cellSize / 2}px`,
-                    color: '#000',
-                    fontFamily: 'Arial',
-                    fontStyle: 'bold'
-                }).setOrigin(0.5);
-            }
-            if (layer == 2) {
-                this.add.text(offsetX + width / 2 + (3 * cellSize) / 2, offsetY - cellSize * 0.6, `Parte de cima`, {
-                    fontSize: `${cellSize / 2}px`,
-                    color: '#000',
-                    fontFamily: 'Arial',
-                    fontStyle: 'bold'
-                }).setOrigin(0.5);
-            }
-
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 3; col++) {
-                    const x = col * cellSize + cellSize / 2 + offsetX + width / 2;
-                    const y = row * cellSize + cellSize / 2 + offsetY;
-                    const cell = this.add.rectangle(x, y, cellSize, cellSize, 0xffffff).setInteractive();
-                    cell.on('pointerdown', () => this.handleCellClick(layer, row, col, cell));
-                    this.cells.push(cell);
-
-                }
-            }
-
-            // Grid lines
-            for (let i = 0; i <= 3; i++) {
-                // Vertical lines
-                this.add.line(offsetX + width / 2, offsetY, i * cellSize, 0, i * cellSize, 3 * cellSize, 0x000000).setOrigin(0);
-                // Horizontal lines
-                this.add.line(offsetX + width / 2, offsetY, 0, i * cellSize, 3 * cellSize, i * cellSize, 0x000000).setOrigin(0);
-            }
-        }
-
-    }
-
 
     handleCellClick(layer, row, col, cell) {
         if (this.board[layer][row][col] !== '') {
@@ -170,7 +83,7 @@ class PlayerVsPlayer extends Phaser.Scene {
         this.board[layer][row][col] = this.currentPlayer;
         this.add.text(cell.x, cell.y, this.currentPlayer, { fontSize: `${cell.width - 10}px`, fontFamily: 'Arial Black', color: '#000' }).setOrigin(0.5);
 
-        if (this.checkWin()) {
+        if (checkWin(this.board, this.currentPlayer)) {
             if (this.currentPlayer === 'X') {
                 winx++;
             }
@@ -185,7 +98,7 @@ class PlayerVsPlayer extends Phaser.Scene {
             this.input.off('pointerdown');
             this.time.delayedCall(2000, () => this.scene.start('PlayerVsPlayer'), [], this);
 
-        } else if (this.checkDraw()) {
+        } else if (checkDraw(this.board)) {
             this.add.text(this.game.config.width / 2 + 30, (this.game.config.height / 2) - 350, 'Empate!', { fontSize: '64px', fontFamily: 'Arial', fill: '#000' }).setOrigin(0.5);
             this.input.off('pointerdown');
             this.time.delayedCall(2000, () => this.scene.start('PlayerVsPlayer'), [], this);
@@ -193,76 +106,6 @@ class PlayerVsPlayer extends Phaser.Scene {
             this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
             this.turnText.setText(`Vez de: ${this.currentPlayer}`);
         }
-    }
-
-    checkWin() {
-        const winningCombinations = [
-            // Linhas em cada camada
-            [[0, 0, 0], [0, 0, 1], [0, 0, 2]],
-            [[0, 1, 0], [0, 1, 1], [0, 1, 2]],
-            [[0, 2, 0], [0, 2, 1], [0, 2, 2]],
-            [[1, 0, 0], [1, 0, 1], [1, 0, 2]],
-            [[1, 1, 0], [1, 1, 1], [1, 1, 2]],
-            [[1, 2, 0], [1, 2, 1], [1, 2, 2]],
-            [[2, 0, 0], [2, 0, 1], [2, 0, 2]],
-            [[2, 1, 0], [2, 1, 1], [2, 1, 2]],
-            [[2, 2, 0], [2, 2, 1], [2, 2, 2]],
-
-            // Linhas verticais em cada camada(XZ)
-            [[0, 0, 0], [1, 0, 0], [2, 0, 0]],
-            [[0, 0, 1], [1, 0, 1], [2, 0, 1]],
-            [[0, 0, 2], [1, 0, 2], [2, 0, 2]],
-            [[0, 1, 0], [1, 1, 0], [2, 1, 0]],
-            [[0, 1, 1], [1, 1, 1], [2, 1, 1]],
-            [[0, 1, 2], [1, 1, 2], [2, 1, 2]],
-            [[0, 2, 0], [1, 2, 0], [2, 2, 0]],
-            [[0, 2, 1], [1, 2, 1], [2, 2, 1]],
-            [[0, 2, 2], [1, 2, 2], [2, 2, 2]],
-
-            // Linhas verticais em cada camada(YZ)
-            [[0, 0, 0], [0, 1, 0], [0, 2, 0]],
-            [[0, 0, 1], [0, 1, 1], [0, 2, 1]],
-            [[0, 0, 2], [0, 1, 2], [0, 2, 2]],
-            [[1, 0, 0], [1, 1, 0], [1, 2, 0]],
-            [[1, 0, 1], [1, 1, 1], [1, 2, 1]],
-            [[1, 0, 2], [1, 1, 2], [1, 2, 2]],
-            [[2, 0, 0], [2, 1, 0], [2, 2, 0]],
-            [[2, 0, 1], [2, 1, 1], [2, 2, 1]],
-            [[2, 0, 2], [2, 1, 2], [2, 2, 2]],
-
-            // Diagonais dentro de cada camada
-            [[0, 0, 0], [0, 1, 1], [0, 2, 2]],
-            [[0, 0, 2], [0, 1, 1], [0, 2, 0]],
-            [[1, 0, 0], [1, 1, 1], [1, 2, 2]],
-            [[1, 0, 2], [1, 1, 1], [1, 2, 0]],
-            [[2, 0, 0], [2, 1, 1], [2, 2, 2]],
-            [[2, 0, 2], [2, 1, 1], [2, 2, 0]],
-
-            // Profundidade (Z) - conectando camadas
-            [[0, 0, 0], [1, 0, 1], [2, 0, 2]],
-            [[0, 0, 2], [1, 0, 1], [2, 0, 0]],
-            [[0, 1, 0], [1, 1, 1], [2, 1, 2]],
-            [[0, 1, 2], [1, 1, 1], [2, 1, 0]],
-            [[0, 2, 0], [1, 2, 1], [2, 2, 2]],
-            [[0, 2, 2], [1, 2, 1], [2, 2, 0]],
-
-            // Diagonais que cruzam camadas (3D)
-            [[0, 0, 0], [1, 1, 1], [2, 2, 2]],
-            [[0, 0, 2], [1, 1, 1], [2, 2, 0]],
-            [[0, 2, 0], [1, 1, 1], [2, 0, 2]],
-            [[0, 2, 2], [1, 1, 1], [2, 0, 0]]
-        ];
-
-        return winningCombinations.some(combination => {
-            const [a, b, c] = combination;
-            return this.board[a[0]][a[1]][a[2]] === this.currentPlayer &&
-                this.board[a[0]][a[1]][a[2]] === this.board[b[0]][b[1]][b[2]] &&
-                this.board[a[0]][a[1]][a[2]] === this.board[c[0]][c[1]][c[2]];
-        });
-    }
-
-    checkDraw() {
-        return this.board.flat(2).every(cell => cell !== '');
     }
 
     update() {
