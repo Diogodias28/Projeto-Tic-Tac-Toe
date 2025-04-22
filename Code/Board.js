@@ -115,5 +115,7 @@ function createBoard(scene) {
     }
   });
 
+  board.cellData = cellData;
+
   return board;
 }

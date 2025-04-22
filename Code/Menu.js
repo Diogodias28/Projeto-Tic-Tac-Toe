@@ -45,67 +45,67 @@ class Menu extends Phaser.Scene {
 
         // BackGround
         this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background');
-        this.background.setScale(1.5);
+        this.background.setScale(1.4);
 
         // Titulo
         this.titulo = this.add.sprite(0.5 * width, 0.1 * height, 'titulo-TTT');
-        this.titulo.setScale(1.3);
+        this.titulo.setScale(1);
 
         // Botão Jogar 1
-        this.playBT = this.add.sprite(0.5 * width, 0.4 * height, 'bt-level0');
-        this.playBT.setScale(1.3);
+        this.playBT = this.add.sprite(0.5 * width, 0.35 * height, 'bt-level0');
+        this.playBT.setScale(0.9);
         this.playBT.setInteractive({ useHandCursor: true });
 
         // Botão Jogar 2
         this.playBT2 = this.add.sprite(0.5 * width, 0.6 * height, 'bt-level1');
-        this.playBT2.setScale(1.3);
+        this.playBT2.setScale(0.9);
         this.playBT2.setInteractive({ useHandCursor: true });
 
         // Botão Jogar 3
-        this.playBT3 = this.add.sprite(0.5 * width, 0.8 * height, 'bt-level2');
-        this.playBT3.setScale(1.3);
+        this.playBT3 = this.add.sprite(0.5 * width, 0.85 * height, 'bt-level2');
+        this.playBT3.setScale(0.9);
         this.playBT3.setInteractive({ useHandCursor: true });
 
         // Botão Home
         this.homeBT = this.add.sprite(0.9 * width, 0.5 * height, 'bt_home');
-        this.homeBT.setScale(1.3);
+        this.homeBT.setScale(0.9);
         this.homeBT.visible = false;
         this.homeBT.setInteractive({ useHandCursor: true });
 
         //FullscreenBTFull
-        this.fullscreenBT1 = this.add.sprite(0.1 * width, 0.1 * height, 'fullscreenBT-1');
-        this.fullscreenBT1.setScale(1);
+        this.fullscreenBT1 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-1');
+        this.fullscreenBT1.setScale(0.7);
         this.fullscreenBT1.setInteractive({ useHandCursor: true });
 
         //FullscreenBTNFull
-        this.fullscreenBT2 = this.add.sprite(0.1 * width, 0.1 * height, 'fullscreenBT-2');
-        this.fullscreenBT2.setScale(1);
+        this.fullscreenBT2 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-2');
+        this.fullscreenBT2.setScale(0.7);
         this.fullscreenBT2.setInteractive({ useHandCursor: true });
 
         // Botão Login
-        this.loginBT = this.add.sprite(0.9 * width, 0.1 * height, 'login-bt');
-        this.loginBT.setScale(1);
+        this.loginBT = this.add.sprite(0.92 * width, 0.1 * height, 'login-bt');
+        this.loginBT.setScale(0.8);
         this.loginBT.setInteractive({ useHandCursor: true });
 
         // Botão Logout
         this.logoutBT = this.add.sprite(0.5 * width, 0.7 * height, 'logout-bt');
-        this.logoutBT.setScale(1.3);
+        this.logoutBT.setScale(0.9);
         this.logoutBT.visible = false;
         this.logoutBT.setInteractive({ useHandCursor: true });
 
         // Botão Ranking
-        this.rankingBT = this.add.sprite(0.9 * width, 0.55 * height, 'bt-top');
-        this.rankingBT.setScale(1.3);
+        this.rankingBT = this.add.sprite(0.93 * width, 0.55 * height, 'bt-top');
+        this.rankingBT.setScale(0.9);
         this.rankingBT.setInteractive({ useHandCursor: true });
 
         // Botão info
-        this.infoBT = this.add.sprite(0.9 * width, 0.72 * height, 'bt-instrucoes');
-        this.infoBT.setScale(1.3);
+        this.infoBT = this.add.sprite(0.93 * width, 0.72 * height, 'bt-instrucoes');
+        this.infoBT.setScale(0.9);
         this.infoBT.setInteractive({ useHandCursor: true });
 
         // Botão Creditos
-        this.creditosBT = this.add.sprite(0.9 * width, 0.9 * height, 'bt-creditos');
-        this.creditosBT.setScale(1.3);
+        this.creditosBT = this.add.sprite(0.93 * width, 0.9 * height, 'bt-creditos');
+        this.creditosBT.setScale(0.9);
         this.creditosBT.setInteractive({ useHandCursor: true });
 
         // Ola MSG
@@ -133,14 +133,14 @@ class Menu extends Phaser.Scene {
         this.creditosPanel.visible = false;
 
         // Botão Fechar
-        this.fecharBT = this.add.sprite(0.59 * width, 0.66 * height, 'bt-fechar');
-        this.fecharBT.setScale(1);
+        this.fecharBT = this.add.sprite(0.57 * width, 0.66 * height, 'bt-fechar');
+        this.fecharBT.setScale(0.85);
         this.fecharBT.visible = false;
         this.fecharBT.setInteractive({ useHandCursor: true });
 
         // Botão Certo
         this.certoBT = this.add.sprite(0.44 * width, 0.66 * height, 'certoBT');
-        this.certoBT.setScale(1);
+        this.certoBT.setScale(0.75);
         this.certoBT.visible = false;
         this.certoBT.setInteractive({ useHandCursor: true });
 
@@ -226,6 +226,7 @@ class Menu extends Phaser.Scene {
                     this.rankingBT.visible = true;
                     this.titulo.visible = true;
                     this.fecharBT.visible = true;
+                    this.fecharBT.setPosition(0.57 * width, 0.66 * height);
                     this.loginErrorMsg.visible = false;
                     this.loginErrorMsg2.visible = false;
                     this.creditosPanel.visible = false;
@@ -255,6 +256,7 @@ class Menu extends Phaser.Scene {
                     this.rankingBT.visible = true;
                     this.titulo.visible = true;
                     this.fecharBT.visible = true;
+                    this.fecharBT.setPosition(0.71 * width, 0.3 * height);
                     this.loginErrorMsg.visible = false;
                     this.loginErrorMsg2.visible = false;
                     this.creditosPanel.visible = false;
@@ -274,6 +276,7 @@ class Menu extends Phaser.Scene {
                     this.rankingBT.visible = true;
                     this.titulo.visible = true;
                     this.fecharBT.visible = true;
+                    this.fecharBT.setPosition(0.71 * width, 0.3 * height);
                     this.loginErrorMsg.visible = false;
                     this.loginErrorMsg2.visible = false;
                     this.creditosPanel.visible = true;

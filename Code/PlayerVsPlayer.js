@@ -11,18 +11,21 @@ class PlayerVsPlayer extends Phaser.Scene {
         this.load.image('bt_home', 'Assets/bt_home.png');
         this.load.image('fullscreenBT-1', 'Assets/fullscreeBT-1.png');
         this.load.image('fullscreenBT-2', 'Assets/fullscreeBT-2.png');
+        // this.load.image('bt_restart', 'Assets/bt_restart.png');
+        this.load.image('PvP', 'Assets/bt-level0.png');
     }
 
     create() {
         this.board = createBoard(this);
         this.currentPlayer = 'X';
+        const cellData = this.board.cellData;
 
         const width = this.game.config.width;
         const height = this.game.config.height;
 
         // Background
         this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background');
-        this.background.setScale(1.5);
+        this.background.setScale(1.4);
 
         this.turnText = this.add.text(this.game.config.width / 2, 150, `Vez de: ${this.currentPlayer}`, {
             fontSize: '64px',
@@ -47,17 +50,23 @@ class PlayerVsPlayer extends Phaser.Scene {
 
         // Block the middle square of the middle board - Needed because X always
         this.board[1][1][1] = 'Blocked';
-        const forbiddenSignal = this.add.text(this.game.config.width / 2, (this.game.config.height / 2) - 15, '🚫', {
-            fontSize: '32px', 
-            color: '#ff0000',
-            fontFamily: 'Arial',
-            fontStyle: 'bold'
-        }).setOrigin(0.5);
+
+        const middleCell = cellData.find(cell => cell.layer === 1 && cell.row === 1 && cell.col === 1);
+
+        if (middleCell) {
+            const graphics = this.add.graphics();
+            graphics.fillStyle(0xff0000, 0.6); // Cor vermelha com 70% de opacidade
+            graphics.fillPoints(middleCell.polygon.points, true); // Preenche o polígono com os pontos da célula
+        }
 
         // Home Button
         this.bt_home = this.add.sprite(0.1 * width, 0.1 * height, 'bt_home');
         this.bt_home.setScale(1);
         this.bt_home.setInteractive({ useHandCursor: true });
+
+        // Modo de jogo atual
+        this.PvP = this.add.sprite(0.9 * width, 0.1 * height, 'PvP');
+        this.PvP.setScale(0.75);
 
         this.input.on('gameobjectover', function (pointer, gameObject) {
             gameObject.displayHeight += 5;

@@ -16,8 +16,7 @@ class TicTacToe extends Phaser.Scene {
         height = game.config.height;
 
         //Background
-        this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background');
-        this.background.setScale(1.5);
+        this.background = this.add.sprite(width, height, 'background');
 
         //Home Button
         this.bt_home = this.add.sprite(0.1 * width, 0.1 * height, 'bt_home');
