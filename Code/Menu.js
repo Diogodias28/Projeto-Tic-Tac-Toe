@@ -5,6 +5,11 @@ let y;
 let width;
 let height;
 
+let di, df;
+di = x + "-09-01";
+df = x + "-08-31";
+
+
 //Login
 let nome = "";
 let nome2 = "";
@@ -310,6 +315,10 @@ class Menu extends Phaser.Scene {
                     this.loginBT.visible = true;
                     this.ola.visible = false;
                     infoUser.logout();
+                    break;
+                case this.rankingBT:
+                    getTOP(di, df, "", "", this);
+                    flag = true;
                     break;
                 default:
                     break;

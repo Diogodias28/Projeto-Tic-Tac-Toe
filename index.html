@@ -49,6 +49,7 @@
         <script src="Code/PlayerVsPlayer.js"></script>
         <script src="Code/PlayerVsBot1.js"></script>
         <script src="Code/PlayerVsBot2.js"></script>
+        <script src="Code/rankingScene.js"></script>"
     </div>
 </body>
 
@@ -62,8 +63,8 @@
         scale: {
             mode: Phaser.Scale.FIT,
             autoCenter: Phaser.Scale.CENTER_BOTH,
-            width: 1920,
-            height: 1100,
+            width: 2048,
+            height: 1200,
         },
         render: {
             pixelArt: false
@@ -74,9 +75,12 @@
         backgroundColor: "#ffffff",
         parent: 'divId',
         fullscreenTarget: 'divId',
-        scene: [Menu, PlayerVsPlayer, PlayerVsBot1,PlayerVsBot2]
+        scene: [Menu, PlayerVsPlayer, PlayerVsBot1, PlayerVsBot2, rankingScene],
     }
     var game = new Phaser.Game(config);
     var infoUser = new loginInfo();
+    var flag = false;
+    var stop = false;
+    var please = "";
 
 </script>
