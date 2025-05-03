@@ -16,6 +16,8 @@ class PlayerVsPlayer extends Phaser.Scene {
     }
 
     create() {
+        this.startTime = 0;
+        this.startTime = this.time.now;
         this.board = createBoard(this);
         this.currentPlayer = 'X';
         const cellData = this.board.cellData;
@@ -25,7 +27,27 @@ class PlayerVsPlayer extends Phaser.Scene {
 
         // Background
         this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background');
-        this.background.setScale(1.4);
+        this.background.setScale(1.5);
+
+        // Home Button
+        this.bt_home = this.add.sprite(0.08 * width, 0.9 * height, 'bt_home');
+        this.bt_home.setScale(0.8);
+        this.bt_home.setInteractive({ useHandCursor: true });
+
+        // Modo de jogo atual
+        this.PvP = this.add.sprite(0.92 * width, 0.1 * height, 'PvP');
+        this.PvP.setScale(0.65);
+
+        //FullscreenBTFull
+        this.fullscreenBT1 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-1');
+        this.fullscreenBT1.setScale(0.7);
+        this.fullscreenBT1.setInteractive({ useHandCursor: true });
+
+        //FullscreenBTNFull
+        this.fullscreenBT2 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-2');
+        this.fullscreenBT2.setScale(0.7);
+        this.fullscreenBT2.setInteractive({ useHandCursor: true });
+        this.fullscreenBT2.setVisible(false)
 
         this.turnText = this.add.text(this.game.config.width / 2, 150, `Vez de: ${this.currentPlayer}`, {
             fontSize: '64px',
@@ -48,6 +70,13 @@ class PlayerVsPlayer extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
+        this.timerText = this.add.text(this.game.config.width / 2, 50, 'Tempo: 0.00s', {
+            fontSize: '48px',
+            color: '#ffffff',
+            fontFamily: 'Arial',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+
         // Block the middle square of the middle board - Needed because X always
         this.board[1][1][1] = 'Blocked';
 
@@ -58,15 +87,6 @@ class PlayerVsPlayer extends Phaser.Scene {
             graphics.fillStyle(0xff0000, 0.6); // Cor vermelha com 70% de opacidade
             graphics.fillPoints(middleCell.polygon.points, true); // Preenche o polígono com os pontos da célula
         }
-
-        // Home Button
-        this.bt_home = this.add.sprite(0.1 * width, 0.1 * height, 'bt_home');
-        this.bt_home.setScale(1);
-        this.bt_home.setInteractive({ useHandCursor: true });
-
-        // Modo de jogo atual
-        this.PvP = this.add.sprite(0.9 * width, 0.1 * height, 'PvP');
-        this.PvP.setScale(0.75);
 
         this.input.on('gameobjectover', function (pointer, gameObject) {
             gameObject.displayHeight += 5;
@@ -83,11 +103,18 @@ class PlayerVsPlayer extends Phaser.Scene {
                 case this.bt_home:
                     winx = 0;
                     wino = 0;
-                    this.scene.stop('PlayerVsPlayer');
-                    this.scene.transition({
-                        target: 'Menu',
-                        duration: 100
-                    });
+                    this.scene.stop();
+                    this.scene.start('Menu');
+                    break;
+                case this.fullscreenBT1:
+                    this.scale.startFullscreen();
+                    this.fullscreenBT1.setVisible(false);
+                    this.fullscreenBT2.setVisible(true);
+                    break;
+                case this.fullscreenBT2:
+                    this.scale.stopFullscreen();
+                    this.fullscreenBT1.setVisible(true);
+                    this.fullscreenBT2.setVisible(false);
                     break;
             }
         }, this);
@@ -110,6 +137,12 @@ class PlayerVsPlayer extends Phaser.Scene {
         }).setOrigin(0.5);
 
         if (checkWin(this.board, this.currentPlayer)) {
+            const endTime = this.time.now; // Tempo atual
+            const totalTime = (endTime - this.startTime) / 1000;
+            const score = Math.max(0, Math.floor(100000 - totalTime * 100));
+
+            console.log(`Tempo total: ${totalTime.toFixed(2)} segundos`);
+            console.log(`Score do jogador ${this.currentPlayer}: ${score}`);
             if (this.currentPlayer === 'X') {
                 winx++;
             }
@@ -122,12 +155,18 @@ class PlayerVsPlayer extends Phaser.Scene {
             this.turnText.setText("");
             this.add.text(this.game.config.width / 2, 150, `${this.currentPlayer} Ganhou!`, { fontSize: '64px', fontFamily: 'Arial', fill: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
             this.input.off('pointerdown');
-            this.time.delayedCall(2000, () => this.scene.start('PlayerVsPlayer'), [], this);
-
+            this.time.delayedCall(2000, () => {
+                this.scene.stop('PlayerVsPlayer');
+                this.scene.start('PlayerVsPlayer');
+            }, [], this);
         } else if (checkDraw(this.board)) {
             this.add.text(this.game.config.width / 2 + 30, (this.game.config.height / 2) - 350, 'Empate!', { fontSize: '64px', fontFamily: 'Arial', fill: '#000' }).setOrigin(0.5);
             this.input.off('pointerdown');
-            this.time.delayedCall(2000, () => this.scene.start('PlayerVsPlayer'), [], this);
+            this.time.delayedCall(2000, () => {
+                this.scene.stop('PlayerVsPlayer');
+                this.scene.start('PlayerVsPlayer');
+            }, [], this);
+            
         } else {
             this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
             this.turnText.setText(`Vez de: ${this.currentPlayer}`);
@@ -135,6 +174,7 @@ class PlayerVsPlayer extends Phaser.Scene {
     }
 
     update() {
-
+        const elapsedTime = (this.time.now - this.startTime) / 1000;
+        this.timerText.setText(`Tempo: ${elapsedTime.toFixed(2)}s`);
     }
 }

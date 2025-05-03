@@ -13,6 +13,11 @@
             width: 100%;
             margin: 0;
         }
+
+        gameContainer {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 
     <meta charset="UTF-8">
@@ -28,6 +33,7 @@
 
 <body>
     <div style="font-family:Arial, Helvetica, sans-serif; position:absolute; left: -1000px; visibility: hidden;">.</div>
+    <div id="gameContainer"></div>
     <div>
         <script>
             var RotateOptions = {
@@ -49,7 +55,7 @@
         <script src="Code/PlayerVsPlayer.js"></script>
         <script src="Code/PlayerVsBot1.js"></script>
         <script src="Code/PlayerVsBot2.js"></script>
-        <script src="Code/rankingScene.js"></script>"
+        <script src="Code/rankingScene.js"></script>
     </div>
 </body>
 
@@ -58,6 +64,7 @@
 <script>
     var config = {
         type: Phaser.CANVAS,
+        parent: 'gameContainer',
         width: window.innerWidth * window.devicePixelRatio,
         height: window.innerHeight * window.devicePixelRatio,
         scale: {
@@ -73,8 +80,6 @@
             createContainer: true
         },
         backgroundColor: "#ffffff",
-        parent: 'divId',
-        fullscreenTarget: 'divId',
         scene: [Menu, PlayerVsPlayer, PlayerVsBot1, PlayerVsBot2, rankingScene],
     }
     var game = new Phaser.Game(config);

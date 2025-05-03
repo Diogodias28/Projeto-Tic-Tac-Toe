@@ -50,7 +50,7 @@ class Menu extends Phaser.Scene {
 
         // BackGround
         this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background');
-        this.background.setScale(1.4);
+        this.background.setScale(1.5);
 
         // Titulo
         this.titulo = this.add.sprite(0.5 * width, 0.1 * height, 'titulo-TTT');
@@ -194,22 +194,14 @@ class Menu extends Phaser.Scene {
         this.input.on('gameobjectdown', function (pointer, gameObject) {
             switch (gameObject) {
                 case this.playBT:
-                    this.scene.transition({
-                        target: 'PlayerVsPlayer',
-                        duration: 100
-                    });
+                    this.scene.stop('Menu');
+                    this.scene.start('PlayerVsPlayer');
                     break;
                 case this.playBT2:
-                    this.scene.transition({
-                        target: 'PlayerVsBot1',
-                        duration: 100
-                    });
+                    this.scene.start('PlayerVsBot1');
                     break;
                 case this.playBT3:
-                    this.scene.transition({
-                        target: 'PlayerVsBot2',
-                        duration: 100
-                    });
+                    this.scene.start('PlayerVsBot2');
                     break;
                 case this.fullscreenBT1:
                     this.scale.startFullscreen();
