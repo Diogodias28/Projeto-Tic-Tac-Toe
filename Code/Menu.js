@@ -1,18 +1,20 @@
-let call = 0;
 let x;
 let y;
 //Variaveis a ser usadas para adicionar os sprites
 let width;
 let height;
 
+let currentYear = new Date().getFullYear();
 let di, df;
-di = x + "-09-01";
-df = x + "-08-31";
+di = currentYear + "-09-01";
+df = (currentYear + 1) + "-08-31";
 
 
 //Login
 let nome = "";
 let nome2 = "";
+let call = 0;
+var please = "";
 
 
 

@@ -37,25 +37,29 @@
     <div>
         <script>
             var RotateOptions = {
+                onlyMobile: true,
+                forcePortrait: true,
                 message: "Por Favor, Rode o Ecrã",
                 submessage: "(Ou Clique Aqui)",
-                allowClick: true,
+                allowClickBypass: true,
             }
         </script>
         <script src="jquery.js"></script>
-        <script src="Code/data/backEnd.js"></script>
+        <script src="Code/data/backEndconnector.js"></script>
         <script src="Code/data/loginInfo.js"></script>
         <script src="phaser.min.js"></script>
-
+        
         <script src="Code/pleaserotate.js"></script>
         <script src="Code/Board.js"></script>
         <script src="Code/WinCheck.js"></script>
-
+        
         <script src="Code/Menu.js"></script>
         <script src="Code/PlayerVsPlayer.js"></script>
         <script src="Code/PlayerVsBot1.js"></script>
         <script src="Code/PlayerVsBot2.js"></script>
         <script src="Code/rankingScene.js"></script>
+        <script src="Code/AlignGrid.js"></script>
+        <script src="gridTable.min.js"></script>
     </div>
 </body>
 
@@ -64,7 +68,6 @@
 <script>
     var config = {
         type: Phaser.CANVAS,
-        parent: 'gameContainer',
         width: window.innerWidth * window.devicePixelRatio,
         height: window.innerHeight * window.devicePixelRatio,
         scale: {
@@ -80,6 +83,8 @@
             createContainer: true
         },
         backgroundColor: "#ffffff",
+        parent: 'divId',
+        fullscreenTarget: 'divId',
         scene: [Menu, PlayerVsPlayer, PlayerVsBot1, PlayerVsBot2, rankingScene],
     }
     var game = new Phaser.Game(config);
