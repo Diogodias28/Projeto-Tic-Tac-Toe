@@ -174,7 +174,7 @@ class Menu extends Phaser.Scene {
         let user = `<input type="text" name="username" style="font-size: 15px;font-family:'Arial';text-align:center;width: 130px; height: 20px;">`;
         let pass = `<input type="password" name="password" style="font-size: 15px;font-family:'Arial';text-align:center;width: 130px; height: 22px;">`;
 
-        x = this.add.dom(0.53 * game.config.width, 0.38 * game.config.height).createFromHTML(user);
+        x = this.add.dom(0.5265 * game.config.width, 0.395 * game.config.height).createFromHTML(user);
         x.setScale(3);
         x.visible = false;
 
