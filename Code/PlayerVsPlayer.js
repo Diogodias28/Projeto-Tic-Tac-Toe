@@ -168,7 +168,7 @@ class PlayerVsPlayer extends Phaser.Scene {
             }).setOrigin(0.5);
             
             this.input.off('pointerdown');
-            this.time.delayedCall(2000, () => {
+            this.input.once('pointerdown', () => {
                 this.scene.stop('PlayerVsPlayer');
                 this.scene.start('PlayerVsPlayer');
             }, [], this);
@@ -180,7 +180,7 @@ class PlayerVsPlayer extends Phaser.Scene {
             }).setOrigin(0.5);
             
             this.input.off('pointerdown');
-            this.time.delayedCall(2000, () => {
+            this.input.once('pointerdown', () => {
                 this.scene.stop('PlayerVsPlayer');
                 this.scene.start('PlayerVsPlayer');
             }, [], this);
