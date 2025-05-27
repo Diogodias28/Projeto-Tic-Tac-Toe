@@ -103,6 +103,26 @@ class PlayerVsBot2 extends Phaser.Scene {
             gameObject.displayHeight -= 5;
             gameObject.displayWidth -= 5;
         });
+        this.input.on('gameobjectdown', function (pointer, gameObject) {
+            switch (gameObject) {
+                case this.bt_home:
+                    winx = 0;
+                    wino = 0;
+                    this.scene.stop();
+                    this.scene.start('Menu');
+                    break;
+                case this.fullscreenBT1:
+                    this.scale.startFullscreen();
+                    this.fullscreenBT1.setVisible(false);
+                    this.fullscreenBT2.setVisible(true);
+                    break;
+                case this.fullscreenBT2:
+                    this.scale.stopFullscreen();
+                    this.fullscreenBT1.setVisible(true);
+                    this.fullscreenBT2.setVisible(false);
+                    break;
+            }
+        }, this);
     }
 
     setupEventListeners() {
