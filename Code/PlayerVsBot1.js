@@ -126,7 +126,7 @@ class PlayerVsBot1 extends Phaser.Scene {
 
     handleCellClick(layer, row, col, cell) {
         if (this.currentPlayer !== 'X') return;
-        
+
         if (this.board[layer][row][col] === 'Blocked') return;
         if (this.board[layer][row][col] !== '') return;
 
@@ -146,7 +146,7 @@ class PlayerVsBot1 extends Phaser.Scene {
     }
 
     botMove() {
-        const bestMove = this.minimax(this.board, 4, -Infinity, Infinity, true);
+        const bestMove = this.minimax(this.board, 3, -Infinity, Infinity, true);
         if (bestMove.cell) { // Garanta que existe movimento válido
             this.makeMove(bestMove.cell, 'O');
             this.currentPlayer = 'X';
@@ -250,7 +250,7 @@ class PlayerVsBot1 extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.off('pointerdown');
-        this.input.once('pointerdown', () => {
+        this.time.delayedCall(2000, () => {
             this.scene.restart();
         });
     }
@@ -264,7 +264,7 @@ class PlayerVsBot1 extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.off('pointerdown');
-        this.input.once('pointerdown', () => {
+        this.time.delayedCall(2000, () => {
             this.scene.restart();
         });
     }

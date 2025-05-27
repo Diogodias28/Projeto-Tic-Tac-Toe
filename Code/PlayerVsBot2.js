@@ -293,10 +293,10 @@ class PlayerVsBot2 extends Phaser.Scene {
         }
 
         // Diagonais entre layers (4 principais)
-        lines.push([[0,0,0],[1,1,1],[2,2,2]]);
-        lines.push([[0,0,2],[1,1,1],[2,2,0]]);
-        lines.push([[0,2,0],[1,1,1],[2,0,2]]);
-        lines.push([[0,2,2],[1,1,1],[2,0,0]]);
+        lines.push([[0, 0, 0], [1, 1, 1], [2, 2, 2]]);
+        lines.push([[0, 0, 2], [1, 1, 1], [2, 2, 0]]);
+        lines.push([[0, 2, 0], [1, 1, 1], [2, 0, 2]]);
+        lines.push([[0, 2, 2], [1, 1, 1], [2, 0, 0]]);
 
         return lines;
     }
@@ -313,11 +313,11 @@ class PlayerVsBot2 extends Phaser.Scene {
         }).setOrigin(0.5);
 
         if (player === 'X') {
-        adicionaPontos(infoUser.user, infoUser.turma, infoUser.escola, score, this);
+            adicionaPontos(infoUser.user, infoUser.turma, infoUser.escola, score, this);
         }
 
         this.input.off('pointerdown');
-        this.input.once('pointerdown', () => {
+        this.time.delayedCall(2000, () => {
             this.scene.restart();
         });
     }
@@ -331,7 +331,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.off('pointerdown');
-        this.input.once('pointerdown', () => {
+        this.time.delayedCall(2000, () => {
             this.scene.restart();
         });
     }

@@ -149,38 +149,38 @@ class PlayerVsPlayer extends Phaser.Scene {
 
             console.log(`Tempo total: ${totalTime.toFixed(2)} segundos`);
             console.log(`Score do jogador ${this.currentPlayer}: ${score}`);
-            
+
             if (this.currentPlayer === 'X') {
                 winx++;
             } else {
                 wino++;
             }
-            
+
             this.winxText.setText(`Vitórias X: ${winx}`);
             this.winoText.setText(`Vitórias O: ${wino}`);
 
             this.turnText.setText("");
-            this.add.text(this.game.config.width / 2, 150, `${this.currentPlayer} Ganhou!`, { 
-                fontSize: '64px', 
-                fontFamily: 'Arial', 
-                fill: '#ffffff', 
-                fontStyle: 'bold' 
+            this.add.text(this.game.config.width / 2, 150, `${this.currentPlayer} Ganhou!`, {
+                fontSize: '64px',
+                fontFamily: 'Arial',
+                fill: '#ffffff',
+                fontStyle: 'bold'
             }).setOrigin(0.5);
-            
+
             this.input.off('pointerdown');
-            this.input.once('pointerdown', () => {
+            this.time.delayedCall(2000, () => {
                 this.scene.stop('PlayerVsPlayer');
                 this.scene.start('PlayerVsPlayer');
             }, [], this);
         } else if (checkDraw(this.board)) {
-            this.add.text(this.game.config.width / 2 + 30, (this.game.config.height / 2) - 350, 'Empate!', { 
-                fontSize: '64px', 
-                fontFamily: 'Arial', 
-                fill: '#000' 
+            this.add.text(this.game.config.width / 2 + 30, (this.game.config.height / 2) - 350, 'Empate!', {
+                fontSize: '64px',
+                fontFamily: 'Arial',
+                fill: '#000'
             }).setOrigin(0.5);
-            
+
             this.input.off('pointerdown');
-            this.input.once('pointerdown', () => {
+            this.time.delayedCall(2000, () => {
                 this.scene.stop('PlayerVsPlayer');
                 this.scene.start('PlayerVsPlayer');
             }, [], this);
