@@ -84,16 +84,7 @@ class PlayerVsPlayer extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        // Block the middle square of the middle board
-        this.board[1][1][1] = 'Blocked';
-
-        const middleCell = cellData.find(cell => cell.layer === 1 && cell.row === 1 && cell.col === 1);
-
-        if (middleCell) {
-            const graphics = this.add.graphics();
-            graphics.fillStyle(0xff0000, 0.6);
-            graphics.fillPoints(middleCell.polygon.points, true);
-        }
+        this.blockMiddleCell();
 
         this.input.on('gameobjectover', function (pointer, gameObject) {
             gameObject.displayHeight += 5;
@@ -115,26 +106,31 @@ class PlayerVsPlayer extends Phaser.Scene {
                     break;
                 case this.fullscreenBT1:
                     this.scale.startFullscreen();
-                    this.fullscreenBT1.setVisible(false);
-                    this.fullscreenBT2.setVisible(true);
                     break;
                 case this.fullscreenBT2:
                     this.scale.stopFullscreen();
-                    this.fullscreenBT1.setVisible(true);
-                    this.fullscreenBT2.setVisible(false);
                     break;
             }
         }, this);
     }
 
-    handleCellClick(layer, row, col, cell) {
-        if (this.board[layer][row][col] === 'Blocked') {
-            return;
-        }
+    blockMiddleCell() {
+        this.board[1][1][1] = 'Blocked';
+        const middleCell = this.board.cellData.find(cell =>
+            cell.layer === 1 && cell.row === 1 && cell.col === 1
+        );
 
-        if (this.board[layer][row][col] !== '') {
-            return;
+        if (middleCell) {
+            const graphics = this.add.graphics();
+            graphics.fillStyle(0xff0000, 0.6);
+            graphics.fillPoints(middleCell.polygon.points, true);
         }
+    }
+
+    handleCellClick(layer, row, col, cell) {
+        if (this.board[layer][row][col] === 'Blocked') return;
+
+        if (this.board[layer][row][col] !== '') return;
 
         // Inicia o temporizador na primeira jogada válida
         if (!this.gameStarted) {
@@ -153,12 +149,10 @@ class PlayerVsPlayer extends Phaser.Scene {
         if (checkWin(this.board, this.currentPlayer)) {
             const endTime = this.time.now;
             const totalTime = (endTime - this.startTime) / 1000;
-            const score = Math.max(0, Math.floor(100000 - totalTime * 100));
 
             console.log(`Tempo total: ${totalTime.toFixed(2)} segundos`);
-            console.log(`Score do jogador ${this.currentPlayer}: ${score}`);
 
-            if (this.currentPlayer === 'X') {
+            if (this.currentPlayer == 'X') {
                 winx++;
             } else {
                 wino++;
@@ -176,7 +170,7 @@ class PlayerVsPlayer extends Phaser.Scene {
             }).setOrigin(0.5);
 
             this.input.off('pointerdown');
-            this.time.delayedCall(2000, () => {
+            this.time.delayedCall(3000, () => {
                 this.scene.stop('PlayerVsPlayer');
                 this.scene.start('PlayerVsPlayer');
             }, [], this);
@@ -188,7 +182,7 @@ class PlayerVsPlayer extends Phaser.Scene {
             }).setOrigin(0.5);
 
             this.input.off('pointerdown');
-            this.time.delayedCall(2000, () => {
+            this.time.delayedCall(3000, () => {
                 this.scene.stop('PlayerVsPlayer');
                 this.scene.start('PlayerVsPlayer');
             }, [], this);
