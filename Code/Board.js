@@ -104,8 +104,78 @@ function createBoard(scene) {
   drawOne(1, centerX, 450, 500, 600, 150, 3, 3);
   drawOne(2, centerX, 650, 500, 600, 150, 3, 3);
 
+  g.lineStyle(1, 0x555555, 1); // Cinza mais escuro para bordas
+  for (let layer = 0; layer < 2; layer++) {
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        // Só desenha para células de borda
+        const isEdgeCell = (row === 0 || row === 2) || (col === 0 || col === 2);
+        if (!isEdgeCell) continue;
+
+        // Encontra células correspondentes
+        const topCell = cellData.find(c =>
+          c.layer === layer && c.row === row && c.col === col
+        );
+
+        const bottomCell = cellData.find(c =>
+          c.layer === layer + 1 && c.row === row && c.col === col
+        );
+
+        if (topCell && bottomCell) {
+          const topPoly = topCell.polygon.points;
+          const bottomPoly = bottomCell.polygon.points;
+
+          // Determina quais cantos conectar baseado na posição
+          if (col === 0) { // Borda esquerda
+            g.strokeLineShape(new Phaser.Geom.Line(
+              topPoly[0].x, topPoly[0].y,
+              bottomPoly[0].x, bottomPoly[0].y
+            ));
+            g.strokeLineShape(new Phaser.Geom.Line(
+              topPoly[3].x, topPoly[3].y,
+              bottomPoly[3].x, bottomPoly[3].y
+            ));
+          }
+
+          if (col === 2) { // Borda direita
+            g.strokeLineShape(new Phaser.Geom.Line(
+              topPoly[1].x, topPoly[1].y,
+              bottomPoly[1].x, bottomPoly[1].y
+            ));
+            g.strokeLineShape(new Phaser.Geom.Line(
+              topPoly[2].x, topPoly[2].y,
+              bottomPoly[2].x, bottomPoly[2].y
+            ));
+          }
+
+          if (row === 0) { // Borda superior
+            g.strokeLineShape(new Phaser.Geom.Line(
+              topPoly[0].x, topPoly[0].y,
+              bottomPoly[0].x, bottomPoly[0].y
+            ));
+            g.strokeLineShape(new Phaser.Geom.Line(
+              topPoly[1].x, topPoly[1].y,
+              bottomPoly[1].x, bottomPoly[1].y
+            ));
+          }
+
+          if (row === 2) { // Borda inferior
+            g.strokeLineShape(new Phaser.Geom.Line(
+              topPoly[3].x, topPoly[3].y,
+              bottomPoly[3].x, bottomPoly[3].y
+            ));
+            g.strokeLineShape(new Phaser.Geom.Line(
+              topPoly[2].x, topPoly[2].y,
+              bottomPoly[2].x, bottomPoly[2].y
+            ));
+          }
+        }
+      }
+    }
+  }
+
   // Add global click handler
-  scene.input.on('pointerdown', function(pointer) {
+  scene.input.on('pointerdown', function (pointer) {
     for (let i = 0; i < cellData.length; i++) {
       const cell = cellData[i];
       if (Phaser.Geom.Polygon.Contains(cell.polygon, pointer.x, pointer.y)) {

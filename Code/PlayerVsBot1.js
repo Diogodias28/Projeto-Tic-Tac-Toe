@@ -249,6 +249,9 @@ class PlayerVsBot1 extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
+        const points = player === 'X' ? 1 : 0;
+        this.registarPontuacao(points);
+
         this.input.off('pointerdown');
         this.time.delayedCall(2000, () => {
             this.scene.restart();
@@ -267,6 +270,28 @@ class PlayerVsBot1 extends Phaser.Scene {
         this.time.delayedCall(2000, () => {
             this.scene.restart();
         });
+    }
+
+    registarPontuacao(pontos) {
+        if (typeof infoUser !== 'undefined' && infoUser.user) {
+            const tipo = 1;
+            gravaRecords(
+                infoUser.user,
+                infoUser.turma,
+                infoUser.escola,
+                pontos,
+                tipo
+            );
+
+            verificaRecords(
+                infoUser.user,
+                infoUser.turma,
+                infoUser.escola,
+                pontos,
+                this,
+                tipo
+            );
+        }
     }
 
     update() {

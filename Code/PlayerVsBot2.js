@@ -5,10 +5,11 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.gameStarted = false;
         this.startTime = 0;
         this.board = null;
+        this.errorRate = 0.85;
     }
 
     preload() {
-        this.load.image('background', 'Assets/Background-PlayerVsBot13d.jpg');
+        this.load.image('background', 'Assets/backgroundClean.png');
         this.load.image('bt_home', 'Assets/bt_home.png');
         this.load.image('fullscreenBT-1', 'Assets/fullscreeBT-1.png');
         this.load.image('fullscreenBT-2', 'Assets/fullscreeBT-2.png');
@@ -41,8 +42,28 @@ class PlayerVsBot2 extends Phaser.Scene {
             this.gameStarted = true;
             this.startTime = this.time.now;
             this.timerText.setText('Tempo: 0.00s');
-            this.botMove();
+            this.makeRandomMove();
         });
+    }
+    makeRandomMove() {
+        const emptyCells = this.getEmptyCells(this.board);
+
+        if (emptyCells.length > 0) {
+            const randomIndex = Math.floor(Math.random() * emptyCells.length);
+            const randomMove = emptyCells[randomIndex];
+
+            const cellInfo = this.board.cellData.find(c =>
+                c.layer === randomMove.layer &&
+                c.row === randomMove.row &&
+                c.col === randomMove.col
+            );
+
+            if (cellInfo) {
+                this.makeMove(cellInfo, 'O');
+                this.currentPlayer = 'X';
+                this.turnText.setText('Sua vez!');
+            }
+        }
     }
 
     blockMiddleCell() {
@@ -130,7 +151,8 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.input.on('gameobjectdown', (pointer, gameObject) => {
             switch (gameObject) {
                 case this.bt_home:
-                    this.scene.transition({ target: 'Menu', duration: 100 });
+                    this.scene.stop();
+                    this.scene.transition('Menu');
                     break;
                 case this.fullscreenBT1:
                     this.scale.startFullscreen();
@@ -146,6 +168,16 @@ class PlayerVsBot2 extends Phaser.Scene {
         });
 
         this.input.on('pointerdown', (pointer) => {
+            // Verifica se foi clique em botão
+            const isButtonClick = [
+                this.bt_home,
+                this.fullscreenBT1,
+                this.fullscreenBT2
+            ].some(btn => btn.getBounds().contains(pointer.x, pointer.y));
+
+            if (isButtonClick) return;
+
+            // Processa apenas cliques em células
             for (let i = 0; i < this.board.cellData.length; i++) {
                 const cell = this.board.cellData[i];
                 if (Phaser.Geom.Polygon.Contains(cell.polygon, pointer.x, pointer.y)) {
@@ -178,8 +210,15 @@ class PlayerVsBot2 extends Phaser.Scene {
     }
 
     botMove() {
+        const randomValue = Math.random();
+        if (randomValue > this.errorRate) {
+            console.log('Bot fazendo jogada aleatória1');
+            this.makeRandomMove();
+            return;
+        }
+        // Para as jogadas subsequentes, mantemos a inteligência
         const moveCount = this.getEmptyCells(this.board).length;
-        const depth = moveCount > 20 ? 3 : moveCount > 15 ? 4 : 5;
+        const depth = moveCount > 20 ? 1 : moveCount > 15 ? 2 : 3;
 
         const bestMove = this.minimax(this.board, depth, -Infinity, Infinity, true);
         if (bestMove.cell) {
@@ -248,10 +287,12 @@ class PlayerVsBot2 extends Phaser.Scene {
         return bestMove;
     }
 
+    // Simplificar a avaliação do tabuleiro
     evaluateBoard(board) {
         if (checkWin(board, 'O')) return 1000;
         if (checkWin(board, 'X')) return -1000;
 
+        // Avaliação simplificada
         let score = 0;
         const lines = this.getAllLines(board);
 
@@ -261,13 +302,8 @@ class PlayerVsBot2 extends Phaser.Scene {
             const xCount = values.filter(v => v === 'X').length;
             const emptyCount = values.filter(v => v === '').length;
 
-            if (xCount > 0 && oCount > 0) continue; // linha bloqueada
-
-            if (oCount === 2 && emptyCount === 1) score += 100;
-            else if (oCount === 1 && emptyCount === 2) score += 10;
-
-            if (xCount === 2 && emptyCount === 1) score -= 100;
-            else if (xCount === 1 && emptyCount === 2) score -= 10;
+            if (oCount === 2 && emptyCount === 1) score += 50;
+            if (xCount === 2 && emptyCount === 1) score -= 50;
         }
 
         return score;
