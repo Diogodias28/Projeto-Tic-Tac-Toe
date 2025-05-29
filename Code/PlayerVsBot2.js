@@ -1,11 +1,6 @@
 class PlayerVsBot2 extends Phaser.Scene {
     constructor() {
         super('PlayerVsBot2');
-        this.currentPlayer = 'O';
-        this.gameStarted = false;
-        this.startTime = 0;
-        this.board = null;
-        this.errorRate = 0.95;
     }
 
     preload() {
@@ -17,10 +12,16 @@ class PlayerVsBot2 extends Phaser.Scene {
     }
 
     create() {
+        this.currentPlayer = 'O';
+        this.gameStarted = false;
+        this.startTime = 0;
+        this.board = null;
+        this.errorRate = 0.96;
+
         const width = game.config.width;
         const height = game.config.height;
 
-        //Background
+        // Background
         this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background1');
         this.background.setScale(1.5);
 
@@ -32,10 +33,6 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.setupUI(width, height);
         this.setupEventListeners();
 
-        // Inicialização de variáveis
-        this.gameStarted = false;
-        this.startTime = 0;
-
         this.currentPlayer = 'O';
         this.turnText.setText('Bot pensando...');
         this.time.delayedCall(500, () => {
@@ -45,6 +42,7 @@ class PlayerVsBot2 extends Phaser.Scene {
             this.makeRandomMove();
         });
     }
+
     makeRandomMove() {
         const emptyCells = this.getEmptyCells(this.board);
 
@@ -80,7 +78,7 @@ class PlayerVsBot2 extends Phaser.Scene {
     }
 
     setupUI(width, height) {
-        // Botões e textos
+        // Botão home
         this.bt_home = this.add.sprite(0.07 * width, 0.9 * height, 'bt_home')
             .setScale(1)
             .setInteractive({ useHandCursor: true });
@@ -89,15 +87,15 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.PvP = this.add.sprite(0.91 * width, 0.1 * height, 'PvE2');
         this.PvP.setScale(0.9);
 
-        // Elementos de fullscreen
-        this.fullscreenBT1 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-1')
-            .setScale(0.7)
-            .setInteractive({ useHandCursor: true });
+        // FullscreenBTFull
+        this.fullscreenBT1 = this.add.sprite(0.07 * width, 0.1 * height, 'fullscreenBT-1');
+        this.fullscreenBT1.setScale(0.9);
+        this.fullscreenBT1.setInteractive({ useHandCursor: true });
 
-        this.fullscreenBT2 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-2')
-            .setScale(0.7)
-            .setInteractive({ useHandCursor: true })
-            .setVisible(false);
+        // FullscreenBTNFull
+        this.fullscreenBT2 = this.add.sprite(0.07 * width, 0.1 * height, 'fullscreenBT-2');
+        this.fullscreenBT2.setScale(0.9);
+        this.fullscreenBT2.setInteractive({ useHandCursor: true });
 
         // Ola MSG
         this.ola = this.add.text(0.85 * game.config.width, 0.17 * game.config.height, "Olá, " + nome2, {
@@ -122,7 +120,9 @@ class PlayerVsBot2 extends Phaser.Scene {
             fontFamily: 'Arial',
             fontStyle: 'bold'
         }).setOrigin(0.5);
+    }
 
+    setupEventListeners() {
         // Eventos de hover
         this.input.on('gameobjectover', (pointer, gameObject) => {
             gameObject.displayHeight += 5;
@@ -136,45 +136,17 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.input.on('gameobjectdown', function (pointer, gameObject) {
             switch (gameObject) {
                 case this.bt_home:
-                    winx = 0;
-                    wino = 0;
                     this.scene.stop();
                     this.scene.start('Menu');
                     break;
                 case this.fullscreenBT1:
                     this.scale.startFullscreen();
-                    this.fullscreenBT1.setVisible(false);
-                    this.fullscreenBT2.setVisible(true);
                     break;
                 case this.fullscreenBT2:
                     this.scale.stopFullscreen();
-                    this.fullscreenBT1.setVisible(true);
-                    this.fullscreenBT2.setVisible(false);
                     break;
             }
         }, this);
-    }
-
-    setupEventListeners() {
-        // Eventos de clique
-        this.input.on('gameobjectdown', (pointer, gameObject) => {
-            switch (gameObject) {
-                case this.bt_home:
-                    this.scene.stop();
-                    this.scene.transition('Menu');
-                    break;
-                case this.fullscreenBT1:
-                    this.scale.startFullscreen();
-                    this.fullscreenBT1.setVisible(false);
-                    this.fullscreenBT2.setVisible(true);
-                    break;
-                case this.fullscreenBT2:
-                    this.scale.stopFullscreen();
-                    this.fullscreenBT1.setVisible(true);
-                    this.fullscreenBT2.setVisible(false);
-                    break;
-            }
-        });
 
         this.input.on('pointerdown', (pointer) => {
             // Verifica se foi clique em botão
@@ -379,7 +351,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.off('pointerdown');
-        this.time.delayedCall(2000, () => {
+        this.time.delayedCall(2500, () => {
             this.scene.restart();
         });
     }
@@ -394,7 +366,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.off('pointerdown');
-        this.time.delayedCall(2000, () => {
+        this.time.delayedCall(2500, () => {
             this.scene.restart();
         });
     }
