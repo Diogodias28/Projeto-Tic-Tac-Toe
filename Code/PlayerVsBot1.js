@@ -205,7 +205,7 @@ class PlayerVsBot1 extends Phaser.Scene {
 
         if (!checkWin(this.board, 'X') && !checkDraw(this.board)) {
             this.currentPlayer = 'O';
-            this.turnText.setText('Bot pensando...');
+            this.turnText.setText('Bot pensando...').setAlpha(1);
             this.time.delayedCall(500, () => this.botMove());
         }
     }
@@ -219,7 +219,7 @@ class PlayerVsBot1 extends Phaser.Scene {
         }
         // Para as jogadas subsequentes, mantemos a inteligência
         const moveCount = this.getEmptyCells(this.board).length;
-        const depth = moveCount > 20 ? 1 : 2;
+        const depth = moveCount > 20 ? 2 : 3;
         const boardCopy = this.copyBoard(this.board);
 
         const bestMove = this.minimax(boardCopy, depth, -Infinity, Infinity, true);
@@ -232,7 +232,7 @@ class PlayerVsBot1 extends Phaser.Scene {
             if (cellInfo) {
                 this.makeMove(cellInfo, 'O');
                 this.currentPlayer = 'X';
-                this.turnText.setText('Sua vez!');
+                this.turnText.setText('Sua vez!').setAlpha(1);
             }
         }
     }
@@ -304,12 +304,13 @@ class PlayerVsBot1 extends Phaser.Scene {
     }
 
     // Simplificar a avaliação do tabuleiro
+    // Substitua a função evaluateBoard existente por esta:
     evaluateBoard(board) {
         if (checkWin(board, 'O')) return 1000;
         if (checkWin(board, 'X')) return -1000;
 
-        // Avaliação simplificada
-        let score = 0;
+        // Avaliação com foco em defesa
+        let score1 = 0;
         const lines = this.getAllLines(board);
 
         for (const line of lines) {
@@ -318,13 +319,19 @@ class PlayerVsBot1 extends Phaser.Scene {
             const xCount = values.filter(v => v === 'X').length;
             const emptyCount = values.filter(v => v === '').length;
 
-            if (oCount === 2 && emptyCount === 1) score += 50;
-            if (xCount === 2 && emptyCount === 1) score -= 50;
+            // Prioridade máxima: bloquear vitória iminente do jogador
+            if (xCount === 2 && emptyCount === 1) score1 -= 100;
+
+            // Prioridade média: completar linha própria
+            if (oCount === 2 && emptyCount === 1) score1 += 50;
+
+            // Prioridade baixa: criar oportunidades futuras
+            if (oCount === 1 && emptyCount === 2) score1 += 10;
+            if (xCount === 1 && emptyCount === 2) score1 -= 5;
         }
 
-        return score;
+        return score1;
     }
-
 
     getEmptyCells(board) {
         const emptyCells = [];
@@ -370,7 +377,7 @@ class PlayerVsBot1 extends Phaser.Scene {
     handleGameEnd(player) {
         const endTime = this.time.now;
         const totalTime = (endTime - this.startTime) / 1000; // tempo em segundos
-        score = Math.max(0, Math.floor(100000 - totalTime * 100));
+        this.score = Math.max(0, Math.floor(100000 - totalTime * 100));
         this.turnText.setText("");
         this.add.text(this.game.config.width / 2, 220, `${player} Ganhou!`, {
             fontSize: '64px',
@@ -379,7 +386,8 @@ class PlayerVsBot1 extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        if(player === 'X') {
+        if (player === 'X') {
+            console.log("Score do jogador X: " + this.score);
             updatePoints();
         }
 
@@ -412,6 +420,8 @@ class PlayerVsBot1 extends Phaser.Scene {
 
         if (this.currentPlayer === 'O' && this.turnText) {
             this.turnText.setAlpha(Math.abs(Math.sin(this.time.now * 0.005)));
+        } else if (this.turnText) {
+            this.turnText.setAlpha(1);
         }
 
         if (this.scale.isFullscreen) {
@@ -432,7 +442,7 @@ class PlayerVsBot1 extends Phaser.Scene {
     }
 }
 
-function updatePoints() {
-    verificaRecords(infoUser.user, infoUser.turma,infoUser.escola, score, this, 1);
+function updatePoints(score) {
+    verificaRecords(infoUser.user, infoUser.turma, infoUser.escola, score, this, 1);
     gravaRecords(infoUser.user, infoUser.turma, infoUser.escola, score, 1);
 }

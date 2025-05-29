@@ -185,15 +185,15 @@ class PlayerVsBot2 extends Phaser.Scene {
 
         if (!checkWin(this.board, 'X') && !checkDraw(this.board)) {
             this.currentPlayer = 'O';
-            this.turnText.setText('Bot pensando...');
-            this.time.delayedCall(500, () => this.botMove());
+            this.turnText.setText('Bot pensando...').setAlpha(1);
+            this.time.delayedCall(1000, () => this.botMove());
         }
     }
 
     botMove() {
         const randomValue = Math.random();
         if (randomValue > this.errorRate) {
-            console.log('Bot fazendo jogada aleatória1');
+            console.log('Bot fazendo jogada aleatória');
             this.makeRandomMove();
             return;
         }
@@ -211,7 +211,7 @@ class PlayerVsBot2 extends Phaser.Scene {
             if (cellInfo) {
                 this.makeMove(cellInfo, 'O');
                 this.currentPlayer = 'X';
-                this.turnText.setText('Sua vez!');
+                this.turnText.setText('Sua vez!').setAlpha(1);
             }
         }
     }
@@ -379,6 +379,8 @@ class PlayerVsBot2 extends Phaser.Scene {
 
         if (this.currentPlayer === 'O' && this.turnText) {
             this.turnText.setAlpha(Math.abs(Math.sin(this.time.now * 0.005)));
+        } else if (this.turnText) {
+            this.turnText.setAlpha(1);
         }
 
         if (this.scale.isFullscreen) {
@@ -399,7 +401,7 @@ class PlayerVsBot2 extends Phaser.Scene {
     }
 }
 
-function updatePoints() {
+function updatePoints(score) {
     verificaRecords(infoUser.user, infoUser.turma, infoUser.escola, score, this, 2);
     gravaRecords(infoUser.user, infoUser.turma, infoUser.escola, score, 2);
 }
