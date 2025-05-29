@@ -56,21 +56,21 @@ class Menu extends Phaser.Scene {
 
         // Titulo
         this.titulo = this.add.sprite(0.5 * width, 0.1 * height, 'titulo-TTT');
-        this.titulo.setScale(1);
+        this.titulo.setScale(1.2);
 
         // Botão Jogar 1
         this.playBT = this.add.sprite(0.5 * width, 0.35 * height, 'bt-level0');
-        this.playBT.setScale(0.9);
+        this.playBT.setScale(1.05);
         this.playBT.setInteractive({ useHandCursor: true });
 
         // Botão Jogar 2
         this.playBT2 = this.add.sprite(0.5 * width, 0.6 * height, 'bt-level1');
-        this.playBT2.setScale(0.9);
+        this.playBT2.setScale(1.05);
         this.playBT2.setInteractive({ useHandCursor: true });
 
         // Botão Jogar 3
         this.playBT3 = this.add.sprite(0.5 * width, 0.85 * height, 'bt-level2');
-        this.playBT3.setScale(0.9);
+        this.playBT3.setScale(1.05);
         this.playBT3.setInteractive({ useHandCursor: true });
 
         // Botão Home
@@ -80,46 +80,46 @@ class Menu extends Phaser.Scene {
         this.homeBT.setInteractive({ useHandCursor: true });
 
         //FullscreenBTFull
-        this.fullscreenBT1 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-1');
-        this.fullscreenBT1.setScale(0.7);
+        this.fullscreenBT1 = this.add.sprite(0.07 * width, 0.1 * height, 'fullscreenBT-1');
+        this.fullscreenBT1.setScale(0.9);
         this.fullscreenBT1.setInteractive({ useHandCursor: true });
 
         //FullscreenBTNFull
-        this.fullscreenBT2 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-2');
-        this.fullscreenBT2.setScale(0.7);
+        this.fullscreenBT2 = this.add.sprite(0.07 * width, 0.1 * height, 'fullscreenBT-2');
+        this.fullscreenBT2.setScale(0.9);
         this.fullscreenBT2.setInteractive({ useHandCursor: true });
 
         // Botão Login
-        this.loginBT = this.add.sprite(0.92 * width, 0.1 * height, 'login-bt');
-        this.loginBT.setScale(0.8);
+        this.loginBT = this.add.sprite(0.91 * width, 0.1 * height, 'login-bt');
+        this.loginBT.setScale(1);
         this.loginBT.setInteractive({ useHandCursor: true });
 
         // Botão Logout
-        this.logoutBT = this.add.sprite(0.5 * width, 0.7 * height, 'logout-bt');
-        this.logoutBT.setScale(0.9);
+        this.logoutBT = this.add.sprite(0.91 * width, 0.1 * height, 'logout-bt');
+        this.logoutBT.setScale(1);
         this.logoutBT.visible = false;
         this.logoutBT.setInteractive({ useHandCursor: true });
 
         // Botão Ranking
         this.rankingBT = this.add.sprite(0.93 * width, 0.55 * height, 'bt-top');
-        this.rankingBT.setScale(0.9);
+        this.rankingBT.setScale(1.05);
         this.rankingBT.setInteractive({ useHandCursor: true });
 
         // Botão info
         this.infoBT = this.add.sprite(0.93 * width, 0.72 * height, 'bt-instrucoes');
-        this.infoBT.setScale(0.9);
+        this.infoBT.setScale(1.05);
         this.infoBT.setInteractive({ useHandCursor: true });
 
         // Botão Creditos
         this.creditosBT = this.add.sprite(0.93 * width, 0.9 * height, 'bt-creditos');
-        this.creditosBT.setScale(0.9);
+        this.creditosBT.setScale(1.05);
         this.creditosBT.setInteractive({ useHandCursor: true });
 
         // Ola MSG
-        this.ola = this.add.text(0.38 * game.config.width, 0.57 * game.config.height, "Olá, " + nome2, {
+        this.ola = this.add.text(0.85 * game.config.width, 0.17 * game.config.height, "Olá, " + nome2, {
             fontFamily: 'Arial',
-            fontSize: 80,
-            color: '#0D870F',
+            fontSize: 38,
+            color: '#FFFFFF',
             align: 'center'
         })
         this.ola.visible = false;
@@ -154,7 +154,7 @@ class Menu extends Phaser.Scene {
 
 
         // Mensagem de erro login
-        this.loginErrorMsg = this.add.text(0.38 * game.config.width, 0.26 * game.config.height, "Utilizador ou Password Errados", {
+        this.loginErrorMsg = this.add.text(0.38 * game.config.width, 0.28 * game.config.height, "Utilizador ou Password Errados", {
             fontFamily: 'Arial',
             fontSize: 35,
             color: '#B40404',

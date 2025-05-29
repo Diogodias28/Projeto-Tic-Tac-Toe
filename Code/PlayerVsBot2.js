@@ -9,7 +9,7 @@ class PlayerVsBot2 extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('background', 'Assets/backgroundClean.png');
+        this.load.image('background1', 'Assets/backgroundClean.png');
         this.load.image('bt_home', 'Assets/bt_home.png');
         this.load.image('fullscreenBT-1', 'Assets/fullscreeBT-1.png');
         this.load.image('fullscreenBT-2', 'Assets/fullscreeBT-2.png');
@@ -21,7 +21,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         const height = game.config.height;
 
         //Background
-        this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background');
+        this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background1');
         this.background.setScale(1.5);
 
         // Criação do tabuleiro
@@ -81,13 +81,13 @@ class PlayerVsBot2 extends Phaser.Scene {
 
     setupUI(width, height) {
         // Botões e textos
-        this.bt_home = this.add.sprite(0.08 * width, 0.9 * height, 'bt_home')
-            .setScale(0.8)
+        this.bt_home = this.add.sprite(0.07 * width, 0.9 * height, 'bt_home')
+            .setScale(1)
             .setInteractive({ useHandCursor: true });
 
         // Modo de jogo atual
-        this.PvP = this.add.sprite(0.92 * width, 0.1 * height, 'PvE2');
-        this.PvP.setScale(0.65);
+        this.PvP = this.add.sprite(0.91 * width, 0.1 * height, 'PvE2');
+        this.PvP.setScale(0.9);
 
         // Elementos de fullscreen
         this.fullscreenBT1 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-1')
@@ -99,15 +99,24 @@ class PlayerVsBot2 extends Phaser.Scene {
             .setInteractive({ useHandCursor: true })
             .setVisible(false);
 
+        // Ola MSG
+        this.ola = this.add.text(0.85 * game.config.width, 0.17 * game.config.height, "Olá, " + nome2, {
+            fontFamily: 'Arial',
+            fontSize: 38,
+            color: '#FFFFFF',
+            align: 'center'
+        })
+        this.ola.visible = false;
+
         // Textos do jogo
-        this.turnText = this.add.text(width / 2, 150, 'Sua vez!', {
+        this.turnText = this.add.text(width / 2, 220, 'Sua vez!', {
             fontSize: '64px',
             color: '#ffffff',
             fontFamily: 'Arial',
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        this.timerText = this.add.text(width / 2, 50, 'Aguardando primeira jogada...', {
+        this.timerText = this.add.text(width / 2, 100, 'Aguardando primeira jogada...', {
             fontSize: '48px',
             color: '#ffffff',
             fontFamily: 'Arial',
@@ -361,16 +370,13 @@ class PlayerVsBot2 extends Phaser.Scene {
         const endTime = this.time.now;
         const totalTime = (endTime - this.startTime) / 1000; // tempo em segundos
         const score = Math.max(0, Math.floor(100000 - totalTime * 100));
-        this.add.text(this.game.config.width / 2, 150, `${player} Ganhou!`, {
+        this.turnText.setText("");
+        this.add.text(this.game.config.width / 2, 220, `${player} Ganhou!`, {
             fontSize: '64px',
             fontFamily: 'Arial',
             fill: '#ffffff',
             fontStyle: 'bold'
         }).setOrigin(0.5);
-
-        if (player === 'X') {
-            adicionaPontos(infoUser.user, infoUser.turma, infoUser.escola, score, this);
-        }
 
         this.input.off('pointerdown');
         this.time.delayedCall(2000, () => {
@@ -379,7 +385,8 @@ class PlayerVsBot2 extends Phaser.Scene {
     }
 
     handleDraw() {
-        this.add.text(this.game.config.width / 2, 150, 'Empate!', {
+        this.turnText.setText("");
+        this.add.text(this.game.config.width / 2, 220, 'Empate!', {
             fontSize: '64px',
             fontFamily: 'Arial',
             fill: '#ffffff',
@@ -400,6 +407,22 @@ class PlayerVsBot2 extends Phaser.Scene {
 
         if (this.currentPlayer === 'O' && this.turnText) {
             this.turnText.setAlpha(Math.abs(Math.sin(this.time.now * 0.005)));
+        }
+
+        if (this.scale.isFullscreen) {
+            this.fullscreenBT1.visible = false;
+            this.fullscreenBT2.visible = true;
+        }
+        else {
+            this.fullscreenBT1.visible = true;
+            this.fullscreenBT2.visible = false;
+        }
+
+        if (infoUser.user != '' && infoUser.user != 'prof') {
+            nome = infoUser.firstName.split(" ");
+            nome2 = nome[0];
+            this.ola.setText(["Olá, " + nome2]);
+            this.ola.visible = true;
         }
     }
 }

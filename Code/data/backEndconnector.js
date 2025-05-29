@@ -332,28 +332,3 @@ function getRecords(username, globalCodTurma, globalCodEscola, scene, tipo) {
         })
 
 }
-
-function adicionaPontos(username, globalCodTurma, globalCodEscola, pontosNovos, scene) {
-    // Vai buscar o score atual
-    $.ajax({
-        type: "POST",
-        url: "https://www.hypatiamat.com/newHRecords.php",
-        data: "action=minimoGlobal&codAl=" + username + "&codTurma=" + globalCodTurma + "&codEscola=" + globalCodEscola + "&pont=0&tip=1&t=treslinha3dHypatia&tC=treslinha3dTOP",
-        crossDomain: true,
-        cache: false,
-        success: function (response) {
-            let scoreAtual = parseFloat(response.split("vlMin4=")[1]);
-            if (isNaN(scoreAtual)) scoreAtual = 0;
-            const novoScore = scoreAtual + pontosNovos;
-            // Guarda o novo total
-            gravaRecords(username, globalCodTurma, globalCodEscola, novoScore, tipo);
-            if (scene) {
-                // Opcional: atualizar UI ou mostrar feedback
-                scene.recorde.setText(novoScore);
-            }
-        },
-        error: function () {
-            alert("Falha de ligação, por favor verifique a sua conexão");
-        }
-    });
-}

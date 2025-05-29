@@ -7,7 +7,7 @@ class PlayerVsPlayer extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('background', 'Assets/Background-tictactoe3d.jpg');
+        this.load.image('background1', 'Assets/backgroundClean.png');
         this.load.image('bt_home', 'Assets/bt_home.png');
         this.load.image('fullscreenBT-1', 'Assets/fullscreeBT-1.png');
         this.load.image('fullscreenBT-2', 'Assets/fullscreeBT-2.png');
@@ -25,30 +25,38 @@ class PlayerVsPlayer extends Phaser.Scene {
         const height = this.game.config.height;
 
         // Background
-        this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background');
+        this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background1');
         this.background.setScale(1.5);
 
-        // Home Button
-        this.bt_home = this.add.sprite(0.08 * width, 0.9 * height, 'bt_home');
-        this.bt_home.setScale(0.8);
-        this.bt_home.setInteractive({ useHandCursor: true });
+        // Botão home
+        this.bt_home = this.add.sprite(0.07 * width, 0.9 * height, 'bt_home')
+            .setScale(1)
+            .setInteractive({ useHandCursor: true });
 
         // Modo de jogo atual
-        this.PvP = this.add.sprite(0.92 * width, 0.1 * height, 'PvP');
-        this.PvP.setScale(0.65);
+        this.PvP = this.add.sprite(0.91 * width, 0.1 * height, 'PvP');
+        this.PvP.setScale(0.9);
 
         //FullscreenBTFull
-        this.fullscreenBT1 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-1');
-        this.fullscreenBT1.setScale(0.7);
+        this.fullscreenBT1 = this.add.sprite(0.07 * width, 0.1 * height, 'fullscreenBT-1');
+        this.fullscreenBT1.setScale(0.9);
         this.fullscreenBT1.setInteractive({ useHandCursor: true });
 
         //FullscreenBTNFull
-        this.fullscreenBT2 = this.add.sprite(0.08 * width, 0.1 * height, 'fullscreenBT-2');
-        this.fullscreenBT2.setScale(0.7);
+        this.fullscreenBT2 = this.add.sprite(0.07 * width, 0.1 * height, 'fullscreenBT-2');
+        this.fullscreenBT2.setScale(0.9);
         this.fullscreenBT2.setInteractive({ useHandCursor: true });
-        this.fullscreenBT2.setVisible(false);
 
-        this.turnText = this.add.text(this.game.config.width / 2, 150, `Vez de: ${this.currentPlayer}`, {
+        // Ola MSG
+        this.ola = this.add.text(0.85 * game.config.width, 0.17 * game.config.height, "Olá, " + nome2, {
+            fontFamily: 'Arial',
+            fontSize: 38,
+            color: '#FFFFFF',
+            align: 'center'
+        })
+        this.ola.visible = false;
+
+        this.turnText = this.add.text(this.game.config.width / 2, 220, `Vez de: ${this.currentPlayer}`, {
             fontSize: '64px',
             color: '#ffffff',
             fontFamily: 'Arial',
@@ -69,7 +77,7 @@ class PlayerVsPlayer extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        this.timerText = this.add.text(this.game.config.width / 2, 50, 'Aguardando primeira jogada...', {
+        this.timerText = this.add.text(this.game.config.width / 2, 100, 'Aguardando primeira jogada...', {
             fontSize: '48px',
             color: '#ffffff',
             fontFamily: 'Arial',
@@ -160,7 +168,7 @@ class PlayerVsPlayer extends Phaser.Scene {
             this.winoText.setText(`Vitórias O: ${wino}`);
 
             this.turnText.setText("");
-            this.add.text(this.game.config.width / 2, 150, `${this.currentPlayer} Ganhou!`, {
+            this.add.text(this.game.config.width / 2, 220, `${this.currentPlayer} Ganhou!`, {
                 fontSize: '64px',
                 fontFamily: 'Arial',
                 fill: '#ffffff',
@@ -173,7 +181,7 @@ class PlayerVsPlayer extends Phaser.Scene {
                 this.scene.start('PlayerVsPlayer');
             }, [], this);
         } else if (checkDraw(this.board)) {
-            this.add.text(this.game.config.width / 2 + 30, (this.game.config.height / 2) - 350, 'Empate!', {
+            this.add.text(this.game.config.width / 2, 220, 'Empate!', {
                 fontSize: '64px',
                 fontFamily: 'Arial',
                 fill: '#000'
@@ -194,6 +202,22 @@ class PlayerVsPlayer extends Phaser.Scene {
         if (this.gameStarted && !checkWin(this.board, 'X') && !checkWin(this.board, 'O') && !checkDraw(this.board)) {
             const elapsedTime = (this.time.now - this.startTime) / 1000;
             this.timerText.setText(`Tempo: ${elapsedTime.toFixed(2)}s`);
+        }
+
+        if (this.scale.isFullscreen) {
+            this.fullscreenBT1.visible = false;
+            this.fullscreenBT2.visible = true;
+        }
+        else {
+            this.fullscreenBT1.visible = true;
+            this.fullscreenBT2.visible = false;
+        }
+
+        if (infoUser.user != '' && infoUser.user != 'prof') {
+            nome = infoUser.firstName.split(" ");
+            nome2 = nome[0];
+            this.ola.setText(["Olá, " + nome2]);
+            this.ola.visible = true;
         }
     }
 }

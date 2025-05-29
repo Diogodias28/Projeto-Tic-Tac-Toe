@@ -100,9 +100,9 @@ function createBoard(scene) {
 
   // draw three boards with the same grid but stepped down the screen
   const centerX = scene.scale.width / 2;
-  drawOne(0, centerX, 250, 500, 600, 150, 3, 3);
-  drawOne(1, centerX, 450, 500, 600, 150, 3, 3);
-  drawOne(2, centerX, 650, 500, 600, 150, 3, 3);
+  drawOne(0, centerX, 330, 500, 600, 150, 3, 3);
+  drawOne(1, centerX, 530, 500, 600, 150, 3, 3);
+  drawOne(2, centerX, 730, 500, 600, 150, 3, 3);
 
   g.lineStyle(1, 0x555555, 1); // Cinza mais escuro para bordas
   for (let layer = 0; layer < 2; layer++) {
