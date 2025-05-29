@@ -122,33 +122,34 @@ function getTOP(di, df, globalCodTurma, globalCodEscola, scene, tipo) {
                 data = [];
                 let j = 0;
                 response = response.split('&');
+
                 for (let i = 0; i < response.length; i++) {
                     response[i] = response[i].split('=')[1];
+
                     if (i % 5 == 0) {
                         j++;
+                        // Processamento do nome igual ao do jogo de sequências
                         response[i] = response[i].split(" ");
-
                         if (response[i].length == 1) {
-
                             response[i] = response[i][0];
-                        }
-                        else {
+                        } else {
                             response[i] = response[i][0] + " " + response[i][response[i].length - 1];
                         }
-                        data.push(j);
+                        data.push(j); // 👈 Alterado para push direto
                     }
+
                     if (i % 5 == 2) {
                         response[i] = response[i].replace("Agrupamento de Escolas", "A.E.");
                     }
-                    data.push(response[i]);
+
+                    data.push(response[i]); // 👈 Alterado para push direto
                 }
 
                 scene.scene.transition({
                     target: 'rankingScene',
-                    data: data,
+                    data: data, // 👈 Dados no formato correto
                     duration: 100,
                 });
-
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("Falha de ligação, por favor verifique a sua conexão")
@@ -176,35 +177,35 @@ function updateTOP(di, df, globalCodTurma, globalCodEscola, flag, scene, tipo) {
                 data = [];
                 let j = 0;
                 response = response.split('&');
+
                 for (let i = 0; i < response.length; i++) {
                     response[i] = response[i].split('=')[1];
+
                     if (i % 5 == 0) {
                         j++;
+                        // Processamento do nome igual ao do jogo de sequências
                         response[i] = response[i].split(" ");
                         if (response[i].length == 1) {
-
                             response[i] = response[i][0];
-                        }
-                        else {
+                        } else {
                             response[i] = response[i][0] + " " + response[i][response[i].length - 1];
                         }
-                        data.push({
-                            name: j
-                        });
+                        data.push(j); // 👈 Alterado para push direto
                     }
+
                     if (i % 5 == 2) {
                         response[i] = response[i].replace("Agrupamento de Escolas", "A.E.");
                     }
-                    data.push({
-                        name: response[i]
-                    });
 
+                    data.push(response[i]); // 👈 Alterado para push direto
                 }
+
                 if (data.length < 4) {
                     scene.table.setItems([]);
-                }
-                else {
-                    scene.table.setItems(data);
+                } else {
+                    // Adaptação para o formato esperado pela tabela
+                    const tableData = data.map(item => ({ name: item.toString() }));
+                    scene.table.setItems(tableData);
                 }
                 scene.table.refresh();
             },

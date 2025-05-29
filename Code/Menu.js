@@ -43,7 +43,7 @@ class Menu extends Phaser.Scene {
         this.load.image("instrucoes-img", "Assets/instrucoes-img.png");
         this.load.image("loginPanel", "Assets/login.png");
         this.load.image("certoBT", "Assets/certoBT.png");
-
+        this.load.scenePlugin('rexuiplugin', 'gridTable.min.js', 'rexUI', 'rexUI');
     }
 
     create() {
@@ -311,8 +311,7 @@ class Menu extends Phaser.Scene {
                     infoUser.logout();
                     break;
                 case this.rankingBT:
-                    getTOP(di, df, "", "", this);
-                    flag = true;
+                    getTOP(di, df, "", "", this, "");
                     break;
                 default:
                     break;
