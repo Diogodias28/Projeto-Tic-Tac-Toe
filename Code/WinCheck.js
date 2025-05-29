@@ -73,9 +73,6 @@ function checkWin(board, currentPlayer) {
         const win = board[a[0]][a[1]][a[2]] === currentPlayer
             && board[a[0]][a[1]][a[2]] === board[b[0]][b[1]][b[2]]
             && board[a[0]][a[1]][a[2]] === board[c[0]][c[1]][c[2]];
-        if (win) {
-            console.log("Combinaçao vencedora: ", combination);
-        }
         return win;
     });
 }

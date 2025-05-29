@@ -5,7 +5,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.gameStarted = false;
         this.startTime = 0;
         this.board = null;
-        this.errorRate = 0.85;
+        this.errorRate = 0.95;
     }
 
     preload() {
@@ -425,4 +425,9 @@ class PlayerVsBot2 extends Phaser.Scene {
             this.ola.visible = true;
         }
     }
+}
+
+function updatePoints() {
+    verificaRecords(infoUser.user, infoUser.turma, infoUser.escola, score, this, 2);
+    gravaRecords(infoUser.user, infoUser.turma, infoUser.escola, score, 2);
 }

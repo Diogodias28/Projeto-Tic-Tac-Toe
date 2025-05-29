@@ -326,7 +326,7 @@ class Menu extends Phaser.Scene {
 
         if (call == 0) {
             sessionVerify();
-            call = 1;
+            call = 1000;
         }
         height = game.config.height;
         width = game.config.width;
