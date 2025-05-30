@@ -212,6 +212,26 @@ class PlayerVsBot1 extends Phaser.Scene {
 
     botMove() {
         const randomValue = Math.random();
+        const emptyCells = this.getEmptyCells(this.board);
+        if (emptyCells.length === 8) { // Tabuleiro quase vazio
+            const corners = [
+                {layer:0, row:0, col:0}, {layer:0, row:0, col:2},
+                {layer:0, row:2, col:0}, {layer:0, row:2, col:2},
+                {layer:2, row:0, col:0}, {layer:2, row:0, col:2},
+                {layer:2, row:2, col:0}, {layer:2, row:2, col:2}
+            ];
+            
+            const availableCorners = corners.filter(corner => 
+                board[corner.layer][corner.row][corner.col] === ''
+            );
+            
+            if (availableCorners.length > 0) {
+                const randomCorner = availableCorners[Math.floor(Math.random() * availableCorners.length)];
+                const cellInfo = this.findCellVisualData(randomCorner.layer, randomCorner.row, randomCorner.col);
+                this.makeMove(cellInfo, 'O');
+                return;
+            }
+        }
         if (randomValue > this.errorRate) {
             console.log('Bot fazendo jogada aleatória1');
             this.makeRandomMove();
@@ -219,7 +239,7 @@ class PlayerVsBot1 extends Phaser.Scene {
         }
         // Para as jogadas subsequentes, mantemos a inteligência
         const moveCount = this.getEmptyCells(this.board).length;
-        const depth = moveCount > 20 ? 2 : 3;
+        const depth = moveCount > 20 ? 1 : moveCount > 15 ? 2 : 3;
         const boardCopy = this.copyBoard(this.board);
 
         const bestMove = this.minimax(boardCopy, depth, -Infinity, Infinity, true);
@@ -303,34 +323,65 @@ class PlayerVsBot1 extends Phaser.Scene {
         return bestMove;
     }
 
-    // Simplificar a avaliação do tabuleiro
-    // Substitua a função evaluateBoard existente por esta:
     evaluateBoard(board) {
         if (checkWin(board, 'O')) return 1000;
         if (checkWin(board, 'X')) return -1000;
-
-        // Avaliação com foco em defesa
-        let score1 = 0;
+    
+        let score = 0;
         const lines = this.getAllLines(board);
-
+        
+        // Sistema de pesos estratégicos
+        const positionWeights = [
+            // Layer 0 (Topo)
+            [
+                [5, 1, 5],  // row 0
+                [1, 0, 1],  // row 1
+                [5, 1, 5]   // row 2
+            ],
+            // Layer 1 (Meio - centro bloqueado)
+            [
+                [1, 0, 1],  // row 0
+                [0, -100, 0],// row 1 (centro bloqueado)
+                [1, 0, 1]   // row 2
+            ],
+            // Layer 2 (Fundo)
+            [
+                [5, 1, 5],  // row 0
+                [1, 0, 1],  // row 1
+                [5, 1, 5]   // row 2
+            ]
+        ];
+    
+        // 1. Valorização posicional
+        for (let l = 0; l < 3; l++) {
+            for (let r = 0; r < 3; r++) {
+                for (let c = 0; c < 3; c++) {
+                    if (board[l][r][c] === 'O') {
+                        score += positionWeights[l][r][c];
+                    } else if (board[l][r][c] === 'X') {
+                        score -= positionWeights[l][r][c];
+                    }
+                }
+            }
+        }
+    
+        // 2. Avaliação de linhas
         for (const line of lines) {
             const values = line.map(([l, r, c]) => board[l][r][c]);
             const oCount = values.filter(v => v === 'O').length;
             const xCount = values.filter(v => v === 'X').length;
             const emptyCount = values.filter(v => v === '').length;
-
-            // Prioridade máxima: bloquear vitória iminente do jogador
-            if (xCount === 2 && emptyCount === 1) score1 -= 100;
-
-            // Prioridade média: completar linha própria
-            if (oCount === 2 && emptyCount === 1) score1 += 50;
-
-            // Prioridade baixa: criar oportunidades futuras
-            if (oCount === 1 && emptyCount === 2) score1 += 10;
-            if (xCount === 1 && emptyCount === 2) score1 -= 5;
+    
+            // Linhas promissoras para O
+            if (oCount === 2 && emptyCount === 1) score += 50;
+            if (oCount === 1 && emptyCount === 2) score += 10;
+            
+            // Bloquear ameaças de X
+            if (xCount === 2 && emptyCount === 1) score -= 100;
+            if (xCount === 1 && emptyCount === 2) score -= 20;
         }
-
-        return score1;
+    
+        return score;
     }
 
     getEmptyCells(board) {
