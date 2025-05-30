@@ -17,6 +17,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.startTime = 0;
         this.board = null;
         this.errorRate = 0.05;
+        this.gameOver = false;
 
         const width = game.config.width;
         const height = game.config.height;
@@ -211,7 +212,9 @@ class PlayerVsBot2 extends Phaser.Scene {
             if (cellInfo) {
                 this.makeMove(cellInfo, 'O');
                 this.currentPlayer = 'X';
-                this.turnText.setText('Sua vez!').setAlpha(1);
+                if (this.gameOver) {
+                    this.turnText.setText('Sua vez!').setAlpha(1);
+                }
             }
         }
     }
@@ -343,6 +346,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         const totalTime = (endTime - this.startTime) / 1000; // tempo em segundos
         const score = Math.max(0, Math.floor(100000 - totalTime * 100));
         this.turnText.setText("");
+        this.gameOver = true;
         this.add.text(this.game.config.width / 2, 220, `${player} Ganhou!`, {
             fontSize: '64px',
             fontFamily: 'Arial',
@@ -351,6 +355,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.off('pointerdown');
+        this.gameOver = false;
         this.time.delayedCall(2500, () => {
             this.scene.restart();
         });
@@ -358,6 +363,7 @@ class PlayerVsBot2 extends Phaser.Scene {
 
     handleDraw() {
         this.turnText.setText("");
+        this.gameOver = true;
         this.add.text(this.game.config.width / 2, 220, 'Empate!', {
             fontSize: '64px',
             fontFamily: 'Arial',
@@ -366,6 +372,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.off('pointerdown');
+        this.gameOver = false;
         this.time.delayedCall(2500, () => {
             this.scene.restart();
         });
