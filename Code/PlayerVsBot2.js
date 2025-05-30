@@ -35,7 +35,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.setupEventListeners();
 
         this.currentPlayer = 'O';
-        this.turnText.setText('Bot pensando...');
+        this.turnText.setText('Bot a pensar...');
         this.time.delayedCall(500, () => {
             this.gameStarted = true;
             this.startTime = this.time.now;
@@ -60,7 +60,7 @@ class PlayerVsBot2 extends Phaser.Scene {
             if (cellInfo) {
                 this.makeMove(cellInfo, 'O');
                 this.currentPlayer = 'X';
-                this.turnText.setText('Sua vez!');
+                this.turnText.setText('Tua vez!');
             }
         }
     }
@@ -108,7 +108,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.ola.visible = false;
 
         // Textos do jogo
-        this.turnText = this.add.text(width / 2, 220, 'Sua vez!', {
+        this.turnText = this.add.text(width / 2, 220, 'Tua vez!', {
             fontSize: '64px',
             color: '#ffffff',
             fontFamily: 'Arial',
@@ -213,7 +213,7 @@ class PlayerVsBot2 extends Phaser.Scene {
                 this.makeMove(cellInfo, 'O');
                 this.currentPlayer = 'X';
                 if (this.gameOver) {
-                    this.turnText.setText('Sua vez!').setAlpha(1);
+                    this.turnText.setText('Tua vez!').setAlpha(1);
                 }
             }
         }
