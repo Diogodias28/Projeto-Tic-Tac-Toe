@@ -16,7 +16,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.gameStarted = false;
         this.startTime = 0;
         this.board = null;
-        this.errorRate = 0.96;
+        this.errorRate = 0.05;
 
         const width = game.config.width;
         const height = game.config.height;
@@ -192,14 +192,14 @@ class PlayerVsBot2 extends Phaser.Scene {
 
     botMove() {
         const randomValue = Math.random();
-        if (randomValue > this.errorRate) {
+        if (randomValue < this.errorRate) {
             console.log('Bot fazendo jogada aleatória');
             this.makeRandomMove();
             return;
         }
         // Para as jogadas subsequentes, mantemos a inteligência
         const moveCount = this.getEmptyCells(this.board).length;
-        const depth = moveCount > 20 ? 1 : moveCount > 15 ? 2 : 3;
+        const depth = moveCount > 20 ? 3 : moveCount > 15 ? 4 : 5;
 
         const bestMove = this.minimax(this.board, depth, -Infinity, Infinity, true);
         if (bestMove.cell) {
