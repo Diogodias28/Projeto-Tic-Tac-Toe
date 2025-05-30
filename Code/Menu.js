@@ -1,8 +1,5 @@
 let x;
 let y;
-//Variaveis a ser usadas para adicionar os sprites
-let width;
-let height;
 
 let currentYear = new Date().getFullYear();
 let di, df;
@@ -14,7 +11,6 @@ df = (currentYear + 1) + "-08-31";
 let nome = "";
 let nome2 = "";
 let call = 0;
-var please = "";
 
 
 
@@ -47,8 +43,8 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
-        width = game.config.width;
-        height = game.config.height;
+        const width = this.game.config.width;
+        const height = this.game.config.height;
 
         // BackGround
         this.background = this.add.sprite(0.5 * width, 0.5 * height, 'background');
@@ -124,7 +120,7 @@ class Menu extends Phaser.Scene {
         })
         this.ola.visible = false;
 
-        //// Painel Login
+        // Painel Login
         this.loginPanel = this.add.sprite(0.5 * width, 0.5 * height, 'loginPanel');
         this.loginPanel.setScale(1.3);
         this.loginPanel.visible = false;
@@ -142,16 +138,14 @@ class Menu extends Phaser.Scene {
         // Botão Fechar
         this.fecharBT = this.add.sprite(0.57 * width, 0.66 * height, 'bt-fechar');
         this.fecharBT.setScale(0.85);
-        this.fecharBT.visible = false;
         this.fecharBT.setInteractive({ useHandCursor: true });
+        this.fecharBT.visible = false;
 
         // Botão Certo
         this.certoBT = this.add.sprite(0.44 * width, 0.66 * height, 'certoBT');
         this.certoBT.setScale(0.75);
-        this.certoBT.visible = false;
         this.certoBT.setInteractive({ useHandCursor: true });
-
-
+        this.certoBT.visible = false;
 
         // Mensagem de erro login
         this.loginErrorMsg = this.add.text(0.38 * game.config.width, 0.28 * game.config.height, "Utilizador ou Password Errados", {
@@ -182,7 +176,6 @@ class Menu extends Phaser.Scene {
         y.setScale(3);
         y.visible = false;
 
-
         this.input.on('gameobjectover', function (pointer, gameObject) {
             gameObject.displayHeight += 5;
             gameObject.displayWidth += 5;
@@ -207,13 +200,9 @@ class Menu extends Phaser.Scene {
                     break;
                 case this.fullscreenBT1:
                     this.scale.startFullscreen();
-                    this.fullscreenBT1.visible = false;
-                    this.fullscreenBT2.visible = true;
                     break;
                 case this.fullscreenBT2:
                     this.scale.stopFullscreen();
-                    this.fullscreenBT1.visible = true;
-                    this.fullscreenBT2.visible = false;
                     break;
                 case this.loginBT:
                     this.playBT.visible = false;
@@ -327,8 +316,6 @@ class Menu extends Phaser.Scene {
             sessionVerify();
             call = 1000;
         }
-        height = game.config.height;
-        width = game.config.width;
 
         if (infoUser.user != '' && infoUser.user != 'prof') {
             nome = infoUser.firstName.split(" ");

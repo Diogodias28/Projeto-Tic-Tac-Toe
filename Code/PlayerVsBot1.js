@@ -5,7 +5,7 @@ class PlayerVsBot1 extends Phaser.Scene {
         this.gameStarted = false;
         this.startTime = 0;
         this.board = null;
-        this.errorRate = 0.8; // Taxa de erro do bot
+        this.errorRate = 0.88; // Taxa de erro do bot
         this.score = 0;
     }
 
@@ -443,7 +443,7 @@ class PlayerVsBot1 extends Phaser.Scene {
         }
 
         this.input.off('pointerdown');
-        this.time.delayedCall(2000, () => {
+        this.time.delayedCall(2500, () => {
             this.scene.restart();
         });
     }
@@ -458,7 +458,7 @@ class PlayerVsBot1 extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.off('pointerdown');
-        this.time.delayedCall(2000, () => {
+        this.time.delayedCall(2500, () => {
             this.scene.restart();
         });
     }
