@@ -56,6 +56,7 @@ class rankingScene extends Phaser.Scene {
         this.di = x + "-09-01";
         this.df = y + "-08-31";
         this.dificulty = 1;
+        this.flag = 2; 
 
         //BACKGROUND
         this.background = this.add.sprite(0.5 * game.config.width, 0.5 * game.config.height, 'background');
@@ -493,21 +494,16 @@ class rankingScene extends Phaser.Scene {
             this.tipoJogo = 1;
             this.facil_icon.setFillStyle('0x088A08');
             this.dificil_icon.setFillStyle('0xffffff');
-            this.atualizarTabela();
-        });
+    updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, this.tipoJogo);        });
 
         this.dificil.input.hitArea.setTo(-50, -5, this.dificil.width + 60, this.dificil.height);
         this.dificil.on('pointerdown', () => {
             this.tipoJogo = 2;
             this.facil_icon.setFillStyle('0xffffff');
             this.dificil_icon.setFillStyle('0x088A08');
-            this.atualizarTabela();
-        });
+    updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, this.tipoJogo);        });
 
-        // Função para atualizar a tabela com o tipo selecionado
-        this.atualizarTabela = function () {
-            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, this.tipoJogo);
-        };
+
     }
 
     /**
