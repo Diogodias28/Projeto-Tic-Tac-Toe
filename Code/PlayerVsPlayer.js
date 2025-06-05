@@ -184,10 +184,9 @@ class PlayerVsPlayer extends Phaser.Scene {
             }).setOrigin(0.5);
 
             this.input.off('pointerdown');
-            this.time.delayedCall(3000, () => {
-                this.scene.stop('PlayerVsPlayer');
-                this.scene.start('PlayerVsPlayer');
-            }, [], this);
+            this.input.once('pointerdown', () => {
+                this.scene.restart();
+            });
         } else if (checkDraw(this.board)) {
             this.add.text(this.game.config.width / 2, 220, 'Empate!', {
                 fontSize: '64px',

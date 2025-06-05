@@ -369,7 +369,7 @@ class PlayerVsBot2 extends Phaser.Scene {
 
         this.input.off('pointerdown');
         this.gameOver = false;
-        this.time.delayedCall(2500, () => {
+        this.input.once('pointerdown', () => {
             this.scene.restart();
         });
     }
