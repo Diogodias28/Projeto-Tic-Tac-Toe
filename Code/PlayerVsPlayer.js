@@ -146,11 +146,25 @@ class PlayerVsPlayer extends Phaser.Scene {
             color: '#000'
         }).setOrigin(0.5);
 
-        if (checkWin(this.board, this.currentPlayer)) {
+        const winningCombo = checkWin(this.board, this.currentPlayer);
+
+        if (winningCombo) {
             const endTime = this.time.now;
             const totalTime = (endTime - this.startTime) / 1000;
-
             console.log(`Tempo total: ${totalTime.toFixed(2)} segundos`);
+
+            winningCombo.forEach(cellIndices => {
+                const [l, r, c] = cellIndices;
+                const winCell = this.board.cellData.find(cell =>
+                    cell.layer === l && cell.row === r && cell.col === c
+                );
+                if (winCell) {
+                    const highlight = this.add.graphics();
+                    highlight.fillStyle(0x00FF00, 0.5); // Verde com 50% de opacidade
+                    highlight.fillPoints(winCell.polygon.points, true);
+                    highlight.depth = 1; // Colocar atrás do texto
+                }
+            });
 
             if (this.currentPlayer == 'X') {
                 winx++;

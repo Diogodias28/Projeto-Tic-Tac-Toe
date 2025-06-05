@@ -284,8 +284,9 @@ class PlayerVsBot1 extends Phaser.Scene {
             color: '#000'
         }).setOrigin(0.5);
 
-        if (checkWin(this.board, player)) {
-            this.handleGameEnd(player);
+        const winningCombo = checkWin(this.board, player);
+        if (winningCombo) {
+            this.handleGameEnd(player, winningCombo);
         } else if (checkDraw(this.board)) {
             this.handleDraw();
         }
@@ -391,7 +392,7 @@ class PlayerVsBot1 extends Phaser.Scene {
         return lines;
     }
 
-    handleGameEnd(player) {
+    handleGameEnd(player, winningCombo) {
         const endTime = this.time.now;
         const totalTime = (endTime - this.startTime) / 1000; // tempo em segundos
         this.score = Math.max(0, Math.floor(100000 - totalTime * 100));
@@ -403,7 +404,18 @@ class PlayerVsBot1 extends Phaser.Scene {
             fill: '#ffffff',
             fontStyle: 'bold'
         }).setOrigin(0.5);
-
+        winningCombo.forEach(cellIndices => {
+            const [l, r, c] = cellIndices;
+            const winCell = this.board.cellData.find(cell =>
+                cell.layer === l && cell.row === r && cell.col === c
+            );
+            if (winCell) {
+                const highlight = this.add.graphics();
+                highlight.fillStyle(0x00FF00, 0.5); // Verde com 50% de opacidade
+                highlight.fillPoints(winCell.polygon.points, true);
+                highlight.depth = 1; // Colocar atrás do texto
+            }
+        });
         if (player === 'X') {
             console.log("Score do jogador X: " + this.score);
             updatePoints();
