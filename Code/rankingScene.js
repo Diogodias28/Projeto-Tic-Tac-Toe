@@ -82,6 +82,8 @@ class rankingScene extends Phaser.Scene {
             this.menuBT.displayWidth -= 5;
         });
 
+        this.tipoJogo = 1; // 1 = Fácil, 2 = Difícil
+
         //TABLEE
         var scrollMode = 0; // 0:vertical, 1:horizontal
 
@@ -98,7 +100,7 @@ class rankingScene extends Phaser.Scene {
             table: {
                 cellWidth: 50,
                 cellHeight: 50,
-                columns: 7,
+                columns: 6,
 
                 mask: {
                     padding: 2,
@@ -130,7 +132,7 @@ class rankingScene extends Phaser.Scene {
                 const index = cell.index;
                 let width, textValue;
 
-                switch (index % 7) {
+                switch (index % 6) {
                     case 0: // Posição
                         width = 100;
                         textValue = item.position;
@@ -154,10 +156,6 @@ class rankingScene extends Phaser.Scene {
                     case 5: // Data
                         width = 200;
                         textValue = item.date;
-                        break;
-                    case 6: // Tipo
-                        width = 150;
-                        textValue = "Jogador";
                         break;
                 }
 
@@ -294,8 +292,8 @@ class rankingScene extends Phaser.Scene {
                         scene.di = "2015-09-01"
                         scene.df = new Date().toISOString().slice(0, 10)
                     }
-                    console.log("1: " + scene.di + " | " + scene.df + " | " + infoUser.turma + " | " + infoUser.escola + " | " + scene);
-                    updateTOP(scene.di, scene.df, infoUser.turma, infoUser.escola, 2, scene, 2);
+                    console.log("1: " + scene.di + " | " + scene.df + " | " + infoUser.turma + " | " + infoUser.escola + " | " + scene + " | " + scene.tipoJogo);
+                    updateTOP(scene.di, scene.df, infoUser.turma, infoUser.escola, 2, scene, scene.tipoJogo);
                 });
 
                 let tmp = x.slice(2, 4) + "-" + y.slice(2, 4);
@@ -352,16 +350,6 @@ class rankingScene extends Phaser.Scene {
         this.aGrid.placeAtIndex(178, this.turma_icon);
         this.turma_filtro.setInteractive({ useHandCursor: true });
 
-        // Tipo
-        this.tipo = this.add.text(0, 0, 'Tipo', {
-            fontFamily: 'font1',
-            fontSize: 40,
-            color: '#0A2A0A'
-        });
-        this.tipo.setOrigin(1.7, 1.5); // Ajuste conforme necessário
-
-        // Adicione ao grid:
-        this.aGrid.placeAtIndex(89, this.tipo); // Posição ajustada
 
         this.todos.input.hitArea.setTo(-50, -5, this.todos.width + 60, this.todos.height);
 
@@ -382,7 +370,7 @@ class rankingScene extends Phaser.Scene {
             this.flag = 2;
             console.log("2: " + scene.di + " " + scene.df + " " + infoUser.turma + " " + infoUser.escola + " " + scene);
 
-            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, 1);
+            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, scene.tipoJogo);
 
         });
 
@@ -398,7 +386,7 @@ class rankingScene extends Phaser.Scene {
             this.flag = 1;
             console.log("3: " + scene.di + " " + scene.df + " " + infoUser.turma + " " + infoUser.escola + " " + scene);
 
-            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, 1);
+            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, scene.tipoJogo);
         });
 
         this.turma_filtro.input.hitArea.setTo(-50, -5, this.turma_filtro.width + 60, this.turma_filtro.height);
@@ -414,7 +402,7 @@ class rankingScene extends Phaser.Scene {
 
             console.log("4: " + scene.di + " " + scene.df + " " + infoUser.turma + " " + infoUser.escola + " " + scene);
 
-            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, 1);
+            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, scene.tipoJogo);
         });
         this.filtro.visible = false;
         this.todos.visible = false;
@@ -450,15 +438,76 @@ class rankingScene extends Phaser.Scene {
         this.turma = this.add.text(0, 0, 'Turma', { fontFamily: 'font1', fontSize: 40, color: '#0A2A0A' });
         this.turma.setOrigin(1.146, 1.5);
 
-        this.data = this.add.text(0, 0, 'Data', { fontFamily: 'font1', fontSize: 40, color: '#0A2A0A' });
-        this.data.setOrigin(2.28, 1.5);
+        this.data = this.add.text(0, 0, 'Data', {
+            fontFamily: 'font1',
+            fontSize: 40,
+            color: '#0A2A0A'
+        });
+        this.data.setOrigin(1.8, 1.5);
 
         this.aGrid.placeAtIndex(77, this.jogador);
         this.aGrid.placeAtIndex(78.5, this.pontos);
         this.aGrid.placeAtIndex(81, this.escola);
         this.aGrid.placeAtIndex(83, this.turma);
         this.aGrid.placeAtIndex(85, this.data);
-        this.aGrid.placeAtIndex(86, this.tipo);
+
+        // Adicionar esta seção após os filtros existentes (Turma, Escola, Todos)
+        // ========== FILTRO DE TIPO DE JOGO ==========
+        this.tipoJogoLabel = this.add.text(0, 0, 'Tipo de Jogo', { fontFamily: 'font1', fontSize: 32, color: '#0A2A0A' });
+        this.tipoJogoLabel.setOrigin(1.3, 1);
+        this.aGrid.placeAtIndex(193.7, this.tipoJogoLabel);
+
+        // Botão para modo Fácil (Bot1)
+        this.facil = this.add.text(0, 0, 'Bot1', { fontFamily: "font1", fontSize: 30, color: '#0B610B', align: 'left' });
+        this.facil.setOrigin(0.8, 1.7);
+        this.aGrid.placeAtIndex(208, this.facil);
+        this.facil_icon = this.add.circle(0, 0, 10).setFillStyle('0xffffff');
+        this.facil_icon.setOrigin(5.18, 3);
+        this.aGrid.placeAtIndex(208, this.facil_icon);
+        this.facil.setInteractive({ useHandCursor: true });
+
+        // Botão para modo Difícil (Bot2)
+        this.dificil = this.add.text(0, 0, 'Bot2', { fontFamily: "font1", fontSize: 30, color: '#0B610B', align: 'left' });
+        this.dificil.setOrigin(0.8, 0.3);
+        this.aGrid.placeAtIndex(208, this.dificil);
+        this.dificil_icon = this.add.circle(0, 0, 10).setFillStyle('0xffffff');
+        this.dificil_icon.setOrigin(5.18, 0);
+        this.aGrid.placeAtIndex(208, this.dificil_icon);
+        this.dificil.setInteractive({ useHandCursor: true });
+
+        // Posicionamento
+        this.tipoJogoLabel.y -= 220;
+        this.tipoJogoLabel.x += 10;
+        this.facil.y -= 200;
+        this.dificil.y -= 200;
+        this.facil_icon.y -= 187;
+        this.dificil_icon.y -= 205;
+
+        // Estado inicial (Fácil selecionado)
+        this.tipoJogo = 1; // 1 = Fácil (Bot1), 2 = Difícil (Bot2)
+        this.facil_icon.setFillStyle('0x088A08');
+
+        // Event handlers
+        this.facil.input.hitArea.setTo(-50, -5, this.facil.width + 60, this.facil.height);
+        this.facil.on('pointerdown', () => {
+            this.tipoJogo = 1;
+            this.facil_icon.setFillStyle('0x088A08');
+            this.dificil_icon.setFillStyle('0xffffff');
+            this.atualizarTabela();
+        });
+
+        this.dificil.input.hitArea.setTo(-50, -5, this.dificil.width + 60, this.dificil.height);
+        this.dificil.on('pointerdown', () => {
+            this.tipoJogo = 2;
+            this.facil_icon.setFillStyle('0xffffff');
+            this.dificil_icon.setFillStyle('0x088A08');
+            this.atualizarTabela();
+        });
+
+        // Função para atualizar a tabela com o tipo selecionado
+        this.atualizarTabela = function () {
+            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, this.tipoJogo);
+        };
     }
 
     /**
