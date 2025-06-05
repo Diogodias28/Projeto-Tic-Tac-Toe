@@ -18,6 +18,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         this.board = null;
         this.errorRate = 0.05;
         this.gameOver = false;
+        this.tipo = 2;
 
         const width = game.config.width;
         const height = game.config.height;
@@ -354,6 +355,11 @@ class PlayerVsBot2 extends Phaser.Scene {
             fill: '#ffffff',
             fontStyle: 'bold'
         }).setOrigin(0.5);
+        if (player === 'X') {
+            console.log("Score do jogador X: " + this.score);
+            verificaRecords(infoUser.user, infoUser.turma, infoUser.escola, this.score, this, this.tipo);
+            gravaRecords(infoUser.user, infoUser.turma, infoUser.escola, this.score, this.tipo);
+        }
         winningCombo.forEach(cellIndices => {
             const [l, r, c] = cellIndices;
             const winCell = this.board.cellData.find(cell =>
@@ -419,9 +425,4 @@ class PlayerVsBot2 extends Phaser.Scene {
             this.ola.visible = true;
         }
     }
-}
-
-function updatePoints(score) {
-    verificaRecords(infoUser.user, infoUser.turma, infoUser.escola, score, this, 2);
-    gravaRecords(infoUser.user, infoUser.turma, infoUser.escola, score, 2);
 }

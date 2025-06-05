@@ -111,6 +111,7 @@ function destroySession() {
 // 
 function getTOP(di, df, globalCodTurma, globalCodEscola, scene, tipo) {
     var data;
+    console.log("getTOP" + di + df +  globalCodTurma + globalCodEscola + tipo);
     $.ajax
         ({
             type: "POST",
@@ -283,7 +284,7 @@ function verificaRecords(username, globalCodTurma, globalCodEscola, pontuacao, s
 
 
 function gravaRecords(username, globalCodTurma, globalCodEscola, pontuacao, tipo) {
-
+    console.log("gravaRecords: " + username + " " + globalCodTurma + " " + globalCodEscola + " " + pontuacao + " " + tipo);
     $.ajax
         ({
             type: "POST",

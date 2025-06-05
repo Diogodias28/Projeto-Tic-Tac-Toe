@@ -300,6 +300,7 @@ class Menu extends Phaser.Scene {
                     infoUser.logout();
                     break;
                 case this.rankingBT:
+                    console.log("Ranking" + di + " " + df);
                     getTOP(di, df, "", "", this, "");
                     break;
                 default:

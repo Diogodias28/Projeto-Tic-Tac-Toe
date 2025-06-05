@@ -8,6 +8,7 @@ class PlayerVsBot1 extends Phaser.Scene {
         this.errorRate = 0.10; // Taxa de erro do bot
         this.score = 0;
         this.gameOver = false;
+        this.tipo = 1;
     }
 
     preload() {
@@ -418,7 +419,8 @@ class PlayerVsBot1 extends Phaser.Scene {
         });
         if (player === 'X') {
             console.log("Score do jogador X: " + this.score);
-            updatePoints();
+            verificaRecords(infoUser.user, infoUser.turma, infoUser.escola, this.score, this, this.tipo);
+            gravaRecords(infoUser.user, infoUser.turma, infoUser.escola, this.score, this.tipo);
         }
 
         this.input.off('pointerdown');
@@ -475,7 +477,3 @@ class PlayerVsBot1 extends Phaser.Scene {
     }
 }
 
-function updatePoints(score) {
-    verificaRecords(infoUser.user, infoUser.turma, infoUser.escola, score, this, 1);
-    gravaRecords(infoUser.user, infoUser.turma, infoUser.escola, score, 1);
-}

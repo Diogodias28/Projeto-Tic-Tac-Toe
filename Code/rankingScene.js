@@ -181,7 +181,7 @@ class rankingScene extends Phaser.Scene {
             },
             items: this.CreateItems()
         }).layout();
-        
+
         this.aGrid.placeAt(6.3535, 7.87, this.table);
 
 
@@ -294,7 +294,8 @@ class rankingScene extends Phaser.Scene {
                         scene.di = "2015-09-01"
                         scene.df = new Date().toISOString().slice(0, 10)
                     }
-                    updateTOP(scene.di, scene.df, infoUser.turma, infoUser.escola, 2, scene);
+                    console.log("1: " + scene.di + " | " + scene.df + " | " + infoUser.turma + " | " + infoUser.escola + " | " + scene);
+                    updateTOP(scene.di, scene.df, infoUser.turma, infoUser.escola, 2, scene, 2);
                 });
 
                 let tmp = x.slice(2, 4) + "-" + y.slice(2, 4);
@@ -379,7 +380,9 @@ class rankingScene extends Phaser.Scene {
             this.turma_icon.setFillStyle('0xffffff');
 
             this.flag = 2;
-            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this);
+            console.log("2: " + scene.di + " " + scene.df + " " + infoUser.turma + " " + infoUser.escola + " " + scene);
+
+            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, 1);
 
         });
 
@@ -393,7 +396,9 @@ class rankingScene extends Phaser.Scene {
             this.turma_icon.setFillStyle('0xffffff');
 
             this.flag = 1;
-            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this);
+            console.log("3: " + scene.di + " " + scene.df + " " + infoUser.turma + " " + infoUser.escola + " " + scene);
+
+            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, 1);
         });
 
         this.turma_filtro.input.hitArea.setTo(-50, -5, this.turma_filtro.width + 60, this.turma_filtro.height);
@@ -407,7 +412,9 @@ class rankingScene extends Phaser.Scene {
 
             this.flag = 0;
 
-            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this);
+            console.log("4: " + scene.di + " " + scene.df + " " + infoUser.turma + " " + infoUser.escola + " " + scene);
+
+            updateTOP(this.di, this.df, infoUser.turma, infoUser.escola, this.flag, this, 1);
         });
         this.filtro.visible = false;
         this.todos.visible = false;
