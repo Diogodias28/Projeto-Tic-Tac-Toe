@@ -207,7 +207,7 @@ class PlayerVsBot1 extends Phaser.Scene {
 
         if (!checkWin(this.board, 'X') && !checkDraw(this.board)) {
             this.currentPlayer = 'O';
-            this.turnText.setText('Bot a pensar......').setAlpha(1);
+            this.turnText.setText('Bot a pensar...').setAlpha(1);
             this.time.delayedCall(500, () => this.botMove());
         }
     }
@@ -255,9 +255,7 @@ class PlayerVsBot1 extends Phaser.Scene {
             if (cellInfo) {
                 this.makeMove(cellInfo, 'O');
                 this.currentPlayer = 'X';
-                if (this.gameOver) {
-                    this.turnText.setText('Tua vez!').setAlpha(1);
-                }
+
             }
         }
     }
@@ -424,7 +422,6 @@ class PlayerVsBot1 extends Phaser.Scene {
         }
 
         this.input.off('pointerdown');
-        this.gameOver = false;
         this.input.once('pointerdown', () => {
             this.scene.restart();
         });
@@ -441,8 +438,8 @@ class PlayerVsBot1 extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.off('pointerdown');
-        this.gameOver = false;
-        this.time.delayedCall(2500, () => {
+        this.gameOver = true;
+        this.input.once('pointerdown', () => {
             this.scene.restart();
         });
     }
@@ -451,6 +448,11 @@ class PlayerVsBot1 extends Phaser.Scene {
         if (this.gameStarted && !checkWin(this.board, 'X') && !checkWin(this.board, 'O') && !checkDraw(this.board)) {
             const elapsedTime = (this.time.now - this.startTime) / 1000;
             this.timerText.setText(`Tempo: ${elapsedTime.toFixed(2)}s`);
+        }
+        if (this.currentPlayer === 'X') {
+            if (!this.gameOver) {
+                this.turnText.setText('Tua vez!');
+            }
         }
 
         if (this.currentPlayer === 'O' && this.turnText) {
