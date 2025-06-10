@@ -346,7 +346,7 @@ class PlayerVsBot2 extends Phaser.Scene {
     handleGameEnd(player, winningCombo) {
         const endTime = this.time.now;
         const totalTime = (endTime - this.startTime) / 1000; // tempo em segundos
-        const score = Math.max(0, Math.floor(100000 - totalTime * 100));
+        this.score = Math.max(0, Math.floor(100000 - totalTime * 100));
         this.turnText.setText("");
         this.gameOver = true;
         this.add.text(this.game.config.width / 2, 220, `${player} Ganhou!`, {
