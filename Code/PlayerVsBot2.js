@@ -200,7 +200,7 @@ class PlayerVsBot2 extends Phaser.Scene {
         }
         // Para as jogadas subsequentes, mantemos a inteligência
         const moveCount = this.getEmptyCells(this.board).length;
-        const depth = moveCount > 20 ? 3 : moveCount > 15 ? 4 : 5;
+        const depth = moveCount > 20 ? 3 : moveCount > 12 ? 4 : 5;
 
         const bestMove = this.minimax(this.board, depth, -Infinity, Infinity, true);
         if (bestMove.cell) {
@@ -234,8 +234,8 @@ class PlayerVsBot2 extends Phaser.Scene {
     }
 
     minimax(board, depth, alpha, beta, maximizingPlayer) {
-        if (checkWin(board, 'O')) return { score: 1000 - (4 - depth) };
-        if (checkWin(board, 'X')) return { score: -1000 + (4 - depth) };
+        if (checkWin(board, 'O')) return { score: 1000 - (5 - depth) };
+        if (checkWin(board, 'X')) return { score: -1000 + (5 - depth) };
         if (checkDraw(board) || depth === 0) return { score: this.evaluateBoard(board) };
 
         const moves = this.getEmptyCells(board);

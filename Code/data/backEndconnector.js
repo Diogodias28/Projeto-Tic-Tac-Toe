@@ -111,7 +111,6 @@ function destroySession() {
 // 
 function getTOP(di, df, globalCodTurma, globalCodEscola, scene, tipo) {
     var data;
-    console.log("getTOP" + di + df +  globalCodTurma + globalCodEscola + tipo);
     $.ajax
         ({
             type: "POST",
@@ -191,22 +190,24 @@ function updateTOP(di, df, globalCodTurma, globalCodEscola, flag, scene, tipo) {
                         } else {
                             response[i] = response[i][0] + " " + response[i][response[i].length - 1];
                         }
-                        data.push(j); // 👈 Alterado para push direto
+                        data.push({name: j});
                     }
 
                     if (i % 5 == 2) {
                         response[i] = response[i].replace("Agrupamento de Escolas", "A.E.");
                     }
 
-                    data.push(response[i]); // 👈 Alterado para push direto
+                    data.push({
+                        name: response[i]
+                    });
                 }
 
                 if (data.length < 4) {
                     scene.table.setItems([]);
                 } else {
                     // Adaptação para o formato esperado pela tabela
-                    const tableData = data.map(item => ({ name: item.toString() }));
-                    scene.table.setItems(tableData);
+                    // const tableData = data.map(item => ({ name: item.toString() }));
+                    scene.table.setItems(data);
                 }
                 scene.table.refresh();
             },
@@ -284,7 +285,6 @@ function verificaRecords(username, globalCodTurma, globalCodEscola, pontuacao, s
 
 
 function gravaRecords(username, globalCodTurma, globalCodEscola, pontuacao, tipo) {
-    console.log("gravaRecords: " + username + " " + globalCodTurma + " " + globalCodEscola + " " + pontuacao + " " + tipo);
     $.ajax
         ({
             type: "POST",

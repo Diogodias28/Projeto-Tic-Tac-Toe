@@ -127,58 +127,47 @@ class rankingScene extends Phaser.Scene {
             },
 
 
-            createCellContainerCallback: (cell, cellContainer) => {
-                const scene = cell.scene;
-                const item = cell.item;
-                const index = cell.index;
-                let width, textValue;
+            createCellContainerCallback: function (cell, cellContainer) {
+                let newwith;
 
-                switch (index % 6) {
-                    case 0: // Posição
-                        width = 100;
-                        textValue = item.position;
-                        break;
-                    case 1: // Nome
-                        width = 300;
-                        textValue = item.name;
-                        break;
-                    case 2: // Pontos
-                        width = 150;
-                        textValue = item.points;
-                        break;
-                    case 3: // Escola
-                        width = 400;
-                        textValue = item.school;
-                        break;
-                    case 4: // Turma
-                        width = 150;
-                        textValue = item.class;
-                        break;
-                    case 5: // Data
-                        width = 200;
-                        textValue = item.date;
-                        break;
+                if (cell.index % 6 == 0) {//index
+                    newwith = 10;
+                }
+                if (cell.index % 6 == 1) {//nome
+                    newwith = 200;
+                }
+                if (cell.index % 6 == 2) {//pontos
+                    newwith = 830;
+                }
+                if (cell.index % 6 == 3) {//Escola
+                    newwith = 1390;
+                }
+                if (cell.index % 6 == 4) {//turm
+                    newwith = 2000;
+                }
+                if (cell.index % 6 == 5) {
+                    newwith = 2300;
                 }
 
-                return scene.rexUI.add.label({
-                    width: width,
-                    height: cell.height,
-                    orientation: 'left-to-right',
-                    text: scene.add.text(0, 0, textValue, {
-                        fontFamily: "font1",
-                        fontSize: 28,
-                        color: cell.index % 7 === 0 ? '#FFD700' : '#FFFFFF'
-                    }),
-                    align: 'center',
-                    space: {
-                        left: 10,
-                        right: 10,
-                        top: 5,
-                        bottom: 5
-                    }
-                });
+
+                var scene = cell.scene,
+                    width = newwith,
+                    height = cell.height,
+                    item = cell.item,
+                    index = cell.index,
+
+                    cellContainer = scene.rexUI.add.label({
+                        width: width,
+                        height: height,
+
+                        orientation: 'top-to-bottom',
+                        text: scene.add.text(50, 50, item.name, { fontFamily: "font1", fontSize: 30, color: '#0B610B', align: 'center' }),
+                        align: 'center',
+                    });
+
+                return cellContainer;
             },
-            items: this.CreateItems()
+            items: this.CreateItems(600)
         }).layout();
 
         this.aGrid.placeAt(6.3535, 7.87, this.table);
@@ -293,8 +282,7 @@ class rankingScene extends Phaser.Scene {
                         scene.di = "2015-09-01"
                         scene.df = new Date().toISOString().slice(0, 10)
                     }
-                    console.log("1: " + scene.di + " | " + scene.df + " | " + infoUser.turma + " | " + infoUser.escola + " | " + scene + " | " + scene.tipoJogo);
-                    updateTOP(scene.di, scene.df, infoUser.turma, infoUser.escola, 2, scene, scene.tipoJogo);
+                    updateTOP(scene.di, scene.df, infoUser.turma, infoUser.escola, scene.flag, scene, scene.tipoJogo);
                 });
 
                 let tmp = x.slice(2, 4) + "-" + y.slice(2, 4);
