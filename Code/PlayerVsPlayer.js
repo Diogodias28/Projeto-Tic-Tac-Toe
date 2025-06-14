@@ -56,28 +56,28 @@ class PlayerVsPlayer extends Phaser.Scene {
         })
         this.ola.visible = false;
 
-        this.turnText = this.add.text(this.game.config.width / 2, 220, `Vez de: ${this.currentPlayer}`, {
+        this.turnText = this.add.text(this.game.config.width / 2, 210, `Vez de: ${this.currentPlayer}`, {
             fontSize: '64px',
             color: '#ffffff',
             fontFamily: 'Arial',
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        this.winxText = this.add.text(this.game.config.width / 2 - 200, this.game.config.height - 200, `Vitórias X: ${winx}`, {
+        this.winxText = this.add.text(this.game.config.width / 2 - 200, this.game.config.height - 180, `Vitórias X: ${winx}`, {
             fontSize: '64px',
             color: '#ffffff',
             fontFamily: 'Arial',
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        this.winoText = this.add.text(this.game.config.width / 2 + 200, this.game.config.height - 200, `Vitórias O: ${wino}`, {
+        this.winoText = this.add.text(this.game.config.width / 2 + 200, this.game.config.height - 180, `Vitórias O: ${wino}`, {
             fontSize: '64px',
             color: '#ffffff',
             fontFamily: 'Arial',
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        this.timerText = this.add.text(this.game.config.width / 2, 100, 'Aguardando primeira jogada...', {
+        this.timerText = this.add.text(this.game.config.width / 2, 100, 'A aguardar a primeira jogada...', {
             fontSize: '48px',
             color: '#ffffff',
             fontFamily: 'Arial',
@@ -176,10 +176,17 @@ class PlayerVsPlayer extends Phaser.Scene {
             this.winoText.setText(`Vitórias O: ${wino}`);
 
             this.turnText.setText("");
-            this.add.text(this.game.config.width / 2, 220, `${this.currentPlayer} Ganhou!`, {
+            this.add.text(this.game.config.width / 2, 210, `${this.currentPlayer} Ganhou!`, {
                 fontSize: '64px',
                 fontFamily: 'Arial',
                 fill: '#ffffff',
+                fontStyle: 'bold'
+            }).setOrigin(0.5);
+
+            this.add.text(this.game.config.width / 2, 310, 'Clique para recomeçar', {
+                fontSize: '40px',
+                fontFamily: 'Arial',
+                color: '#ffffff',
                 fontStyle: 'bold'
             }).setOrigin(0.5);
 
@@ -188,7 +195,7 @@ class PlayerVsPlayer extends Phaser.Scene {
                 this.scene.restart();
             });
         } else if (checkDraw(this.board)) {
-            this.add.text(this.game.config.width / 2, 220, 'Empate!', {
+            this.add.text(this.game.config.width / 2, 210, 'Empate!', {
                 fontSize: '64px',
                 fontFamily: 'Arial',
                 fill: '#000'

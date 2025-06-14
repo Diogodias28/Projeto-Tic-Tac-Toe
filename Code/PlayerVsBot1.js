@@ -110,7 +110,7 @@ class PlayerVsBot1 extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        this.timerText = this.add.text(width / 2, 100, 'Aguardando primeira jogada...', {
+        this.timerText = this.add.text(width / 2, 100, 'A aguardar a primeira jogada...', {
             fontSize: '48px',
             color: '#ffffff',
             fontFamily: 'Arial',
@@ -394,7 +394,11 @@ class PlayerVsBot1 extends Phaser.Scene {
     handleGameEnd(player, winningCombo) {
         const endTime = this.time.now;
         const totalTime = (endTime - this.startTime) / 1000; // tempo em segundos
-        this.score = Math.max(0, Math.floor(100000 - totalTime * 100));
+        if (player === 'X') {
+            this.score = Math.max(0, Math.floor(100000 - totalTime * 100));
+        } else {
+            this.score = 0;
+        }
         this.turnText.setText("");
         this.gameOver = true;
         this.add.text(this.game.config.width / 2, 220, `${player} Ganhou!`, {
@@ -403,6 +407,20 @@ class PlayerVsBot1 extends Phaser.Scene {
             fill: '#ffffff',
             fontStyle: 'bold'
         }).setOrigin(0.5);
+        this.add.text(this.game.config.width / 2, 310, 'Clique para recomeçar', {
+            fontSize: '40px',
+            fontFamily: 'Arial',
+            color: '#FFD700',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        if (infoUser.user != '' && infoUser.user != 'prof'){
+            this.add.text(0.91 * game.config.width, 0.23 * game.config.height, `Pontuação: ${this.score}`, {
+                fontSize: '30px',
+                fontFamily: 'Arial',
+                fill: '#FFD700',
+                fontStyle: 'bold'
+            }).setOrigin(0.5);
+        }
         winningCombo.forEach(cellIndices => {
             const [l, r, c] = cellIndices;
             const winCell = this.board.cellData.find(cell =>
@@ -434,6 +452,12 @@ class PlayerVsBot1 extends Phaser.Scene {
             fontSize: '64px',
             fontFamily: 'Arial',
             fill: '#ffffff',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.add.text(this.game.config.width / 2, 310, 'Clique para recomeçar', {
+            fontSize: '40px',
+            fontFamily: 'Arial',
+            color: '#FFD700',
             fontStyle: 'bold'
         }).setOrigin(0.5);
 

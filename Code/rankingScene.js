@@ -149,7 +149,6 @@ class rankingScene extends Phaser.Scene {
                     newwith = 2300;
                 }
 
-
                 var scene = cell.scene,
                     width = newwith,
                     height = cell.height,
@@ -161,7 +160,7 @@ class rankingScene extends Phaser.Scene {
                         height: height,
 
                         orientation: 'top-to-bottom',
-                        text: scene.add.text(50, 50, item.name, { fontFamily: "font1", fontSize: 30, color: '#0B610B', align: 'center' }),
+                        text: scene.add.text(50, 50, item.name, { fontFamily: "font1", fontSize: 30, color: '#FFFFFF', align: 'center' }),
                         align: 'center',
                     });
 
@@ -244,7 +243,7 @@ class rankingScene extends Phaser.Scene {
 
                         orientation: 0,
                         icon: scene.add.circle(0, 50, 10).setFillStyle('0xffffff'),
-                        text: scene.add.text(50, 50, item, { fontFamily: "font1", fontSize: 30, color: '#0B610B', align: 'center' }),
+                        text: scene.add.text(50, 50, item, { fontFamily: "font1", fontSize: 30, color: '#FFFFFF', align: 'center' }),
                         align: 'center',
                         space: {
                             icon: 20,
@@ -300,36 +299,36 @@ class rankingScene extends Phaser.Scene {
 
 
         this.ano = this.add.text(0, 0, 'Ano letivo', { fontFamily: 'font1', fontSize: 32, color: '#0A2A0A' });
-        this.ano.setOrigin(0.65, 1.1);
-        this.aGrid.placeAtIndex(73, this.ano);
+        this.ano.setOrigin(0.65, 0.5);
+        this.aGrid.placeAtIndex(72.85, this.ano);
         this.ano.y = 418;
 
         
 
         this.jogador = this.add.text(0, 0, 'Jogador', { fontFamily: 'font1', fontSize: 40, color: '#0A2A0A' });
-        this.jogador.setOrigin(0.3, 1.5);
+        this.jogador.setOrigin(0.3, 1);
 
         this.pontos = this.add.text(0, 0, 'Pontos', { fontFamily: 'font1', fontSize: 40, color: '#0A2A0A' });
-        this.pontos.setOrigin(0, 1.5);
+        this.pontos.setOrigin(0, 1);
 
         this.escola = this.add.text(0, 0, 'Escola', { fontFamily: 'font1', fontSize: 40, color: '#0A2A0A' });
-        this.escola.setOrigin(0.7, 1.5);
+        this.escola.setOrigin(0.7, 1);
 
         this.turma = this.add.text(0, 0, 'Turma', { fontFamily: 'font1', fontSize: 40, color: '#0A2A0A' });
-        this.turma.setOrigin(1.146, 1.5);
+        this.turma.setOrigin(1.146, 1);
 
         this.data = this.add.text(0, 0, 'Data', {
             fontFamily: 'font1',
             fontSize: 40,
             color: '#0A2A0A'
         });
-        this.data.setOrigin(1.8, 1.5);
+        this.data.setOrigin(1.8, 1);
 
-        this.aGrid.placeAtIndex(77, this.jogador);
-        this.aGrid.placeAtIndex(78.5, this.pontos);
-        this.aGrid.placeAtIndex(81, this.escola);
-        this.aGrid.placeAtIndex(83, this.turma);
-        this.aGrid.placeAtIndex(85, this.data);
+        this.aGrid.placeAtIndex(76.9, this.jogador);
+        this.aGrid.placeAtIndex(79, this.pontos);
+        this.aGrid.placeAtIndex(82, this.escola);
+        this.aGrid.placeAtIndex(84.9, this.turma);
+        this.aGrid.placeAtIndex(86.6, this.data);
 
         // Adicionar esta seção após os filtros existentes (Turma, Escola, Todos)
         // ========== FILTRO DE TIPO DE JOGO ==========
@@ -338,7 +337,7 @@ class rankingScene extends Phaser.Scene {
         this.aGrid.placeAtIndex(193.7, this.tipoJogoLabel);
 
         // Botão para modo Fácil (Bot1)
-        this.facil = this.add.text(0, 0, 'Bot1', { fontFamily: "font1", fontSize: 30, color: '#0B610B', align: 'left' });
+        this.facil = this.add.text(0, 0, 'Bot1', { fontFamily: "font1", fontSize: 30, color: '#FFFFFF', align: 'left' });
         this.facil.setOrigin(0.8, 1.7);
         this.aGrid.placeAtIndex(208, this.facil);
         this.facil_icon = this.add.circle(0, 0, 10).setFillStyle('0xffffff');
@@ -347,7 +346,7 @@ class rankingScene extends Phaser.Scene {
         this.facil.setInteractive({ useHandCursor: true });
 
         // Botão para modo Difícil (Bot2)
-        this.dificil = this.add.text(0, 0, 'Bot2', { fontFamily: "font1", fontSize: 30, color: '#0B610B', align: 'left' });
+        this.dificil = this.add.text(0, 0, 'Bot2', { fontFamily: "font1", fontSize: 30, color: '#FFFFFF', align: 'left' });
         this.dificil.setOrigin(0.8, 0.3);
         this.aGrid.placeAtIndex(208, this.dificil);
         this.dificil_icon = this.add.circle(0, 0, 10).setFillStyle('0xffffff');

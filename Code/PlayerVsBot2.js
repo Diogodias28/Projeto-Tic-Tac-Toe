@@ -115,7 +115,7 @@ class PlayerVsBot2 extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        this.timerText = this.add.text(width / 2, 100, 'Aguardando primeira jogada...', {
+        this.timerText = this.add.text(width / 2, 100, 'A aguardar a primeira jogada...', {
             fontSize: '48px',
             color: '#ffffff',
             fontFamily: 'Arial',
@@ -186,7 +186,7 @@ class PlayerVsBot2 extends Phaser.Scene {
 
         if (!checkWin(this.board, 'X') && !checkDraw(this.board)) {
             this.currentPlayer = 'O';
-            this.turnText.setText('Bot pensando...').setAlpha(1);
+            this.turnText.setText('Bot a pensar...').setAlpha(1);
             this.time.delayedCall(1000, () => this.botMove());
         }
     }
@@ -342,7 +342,11 @@ class PlayerVsBot2 extends Phaser.Scene {
     handleGameEnd(player, winningCombo) {
         const endTime = this.time.now;
         const totalTime = (endTime - this.startTime) / 1000; // tempo em segundos
-        this.score = Math.max(0, Math.floor(100000 - totalTime * 100));
+        if (player === 'X') {
+            this.score = Math.max(0, Math.floor(100000 - totalTime * 100));
+        } else {
+            this.score = 0;
+        }
         this.turnText.setText("");
         this.gameOver = true;
         this.add.text(this.game.config.width / 2, 220, `${player} Ganhou!`, {
@@ -351,6 +355,20 @@ class PlayerVsBot2 extends Phaser.Scene {
             fill: '#ffffff',
             fontStyle: 'bold'
         }).setOrigin(0.5);
+        this.add.text(this.game.config.width / 2, 310, 'Clique para recomeçar', {
+            fontSize: '40px',
+            fontFamily: 'Arial',
+            color: '#FFD700',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        if (infoUser.user != '' && infoUser.user != 'prof'){
+            this.add.text(0.91 * game.config.width, 0.23 * game.config.height, `Pontuação: ${this.score}`, {
+                fontSize: '30px',
+                fontFamily: 'Arial',
+                fill: '#FFD700',
+                fontStyle: 'bold'
+            }).setOrigin(0.5);
+        }
         if (player === 'X') {
             console.log("Score do jogador X: " + this.score);
             verificaRecords(infoUser.user, infoUser.turma, infoUser.escola, this.score, this, this.tipo);
@@ -382,6 +400,12 @@ class PlayerVsBot2 extends Phaser.Scene {
             fontSize: '64px',
             fontFamily: 'Arial',
             fill: '#ffffff',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.add.text(this.game.config.width / 2, 310, 'Clique para recomeçar', {
+            fontSize: '40px',
+            fontFamily: 'Arial',
+            color: '#FFD700',
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
